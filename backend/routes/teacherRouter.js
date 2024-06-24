@@ -5,6 +5,7 @@ import {
   logoutTeacher,
   getAllMaterials,
   getMaterialById,
+  getMyMaterials,
   postMaterial,
   createCenter,
 } from '../controllers/teacherController.js';
@@ -18,10 +19,10 @@ router.post('/logout', logoutTeacher);
 
 router.get('/materials', isAuthenticated, getAllMaterials);
 router.get('/materials/:id', isAuthenticated, getMaterialById);
-router.post('/material', isAuthenticated, postMaterial);
+router.get('/myMaterials', isAuthenticated, getMyMaterials);
+router.post('/postMaterial', isAuthenticated, postMaterial);
 
 router.post('/center', isAuthenticated, createCenter);
 // Route to post new material 
-router.post('/material', isAuthenticatedUser, postMaterial);
 
 export default router;

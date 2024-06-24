@@ -81,7 +81,7 @@ export const getMaterialById = getMaterialById;
 export const postMaterial = postMaterial;
 
 // Get my materials
-export const myMaterial=getMyMaterials;
+export const getMyMaterials=getMyMaterials;
 
 // Create a new center
 export const createCenter = catchAsyncErrors(async (req, res, next) => {
