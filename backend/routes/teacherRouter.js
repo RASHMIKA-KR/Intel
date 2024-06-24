@@ -1,4 +1,8 @@
 import express from 'express';
+import { postMaterial } from '../controllers/materialController.js';
+
+
+
 import {
   registerTeacher,
   loginTeacher,
@@ -21,5 +25,7 @@ router.get('/material/:id', isAuthenticated, getMaterialById);
 router.post('/material', isAuthenticated, postMaterial);
 
 router.post('/center', isAuthenticated, createCenter);
+// Route to post new material 
+router.post('/material', isAuthenticatedUser, postMaterial);
 
 export default router;

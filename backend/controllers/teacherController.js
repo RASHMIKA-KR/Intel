@@ -4,6 +4,8 @@ import Center from '../models/centerSchema.js';
 import { catchAsyncErrors } from '../middlewares/catchAsyncError.js';
 import ErrorHandler from '../middlewares/error.js';
 import { sendToken } from '../utils/jwtToken.js';
+import { postLearningMaterial } from './materialController.js';
+
 
 // Register a new teacher
 export const registerTeacher = catchAsyncErrors(async (req, res, next) => {
@@ -91,26 +93,11 @@ export const getMaterialById = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// Post a new material
-export const postMaterial = catchAsyncErrors(async (req, res, next) => {
-  const { name, description, files } = req.body;
-  const uploadedBy = req.user._id;
-  const uploadedByModel = 'Teacher';
 
-  const material = await Material.create({
-    name,
-    description,
-    files,
-    uploadedBy,
-    uploadedByModel,
-  });
+// Reuse the postMaterial function
+export const postMaterial = postMaterial;
 
-  res.status(201).json({
-    success: true,
-    material,
-    message: "Material Posted Successfully!",
-  });
-});
+
 
 // Create a new center
 export const createCenter = catchAsyncErrors(async (req, res, next) => {
