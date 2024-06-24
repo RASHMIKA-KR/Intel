@@ -4,7 +4,7 @@ import Center  from "../models/centerSchema.js";
 import { catchAsyncErrors } from "../middlewares/catchAsyncError.js";
 import ErrorHandler from "../middlewares/error.js";
 import { sendToken } from "../utils/jwtToken.js";
-import {  getAllMaterials, getMaterialById } from '../controllers/materialController.js';
+import { getAllMaterials, getMaterialById } from '../controllers/materialController.js';
 
 // Register a new student
 export const registerUser = catchAsyncErrors(async (req, res, next) => {

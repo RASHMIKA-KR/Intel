@@ -3,6 +3,36 @@ import { catchAsyncErrors } from "../middlewares/catchAsyncError.js";
 import ErrorHandler from "../middlewares/error.js";
 import cloudinary from 'cloudinary';
 
+// Get all materials
+export const getAllMaterials = catchAsyncErrors(async (req, res, next) => {
+    const materials = await Material.find();
+    res.status(200).json({
+        success: true,
+        materials,
+    });
+});
+
+// Get materials uploaded by the current user
+export const getMyMaterials = catchAsyncErrors(async (req, res, next) => {
+    const myMaterials = await Material.find({ uploadedBy: req.user._id });
+    res.status(200).json({
+        success: true,
+        myMaterials,
+    });
+});
+
+// Get material by ID
+export const getMaterialById = catchAsyncErrors(async (req, res, next) => {
+    const material = await Material.findById(req.params.id);
+    if (!material) {
+        return next(new ErrorHandler("Material not found", 404));
+    }
+    res.status(200).json({
+        success: true,
+        material,
+    });
+});
+
 // Post new learning material
 export const postLearningMaterial = catchAsyncErrors(async (req, res, next) => {
     const { title, description, category, uploadedByModel } = req.body;

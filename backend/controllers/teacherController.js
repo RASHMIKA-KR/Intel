@@ -5,7 +5,6 @@ import ErrorHandler from '../middlewares/error.js';
 import { sendToken } from '../utils/jwtToken.js';
 import { postMaterial, getAllMaterials, getMaterialById, getMyMaterials } from '../controllers/materialController.js';
 
-
 // Register a new teacher
 export const registerTeacher = catchAsyncErrors(async (req, res, next) => {
   const {
