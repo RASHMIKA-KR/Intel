@@ -1,13 +1,9 @@
 import express from 'express';
-import { postMaterial } from '../controllers/materialController.js';
-
-
-
 import {
   registerTeacher,
   loginTeacher,
   logoutTeacher,
-  getMaterials,
+  getAllMaterials,
   getMaterialById,
   postMaterial,
   createCenter,
@@ -20,8 +16,8 @@ router.post('/register', registerTeacher);
 router.post('/login', loginTeacher);
 router.post('/logout', logoutTeacher);
 
-router.get('/materials', isAuthenticated, getMaterials);
-router.get('/material/:id', isAuthenticated, getMaterialById);
+router.get('/materials', isAuthenticated, getAllMaterials);
+router.get('/materials/:id', isAuthenticated, getMaterialById);
 router.post('/material', isAuthenticated, postMaterial);
 
 router.post('/center', isAuthenticated, createCenter);

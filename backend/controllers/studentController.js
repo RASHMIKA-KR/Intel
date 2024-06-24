@@ -4,7 +4,7 @@ import Center  from "../models/centerSchema.js";
 import { catchAsyncErrors } from "../middlewares/catchAsyncError.js";
 import ErrorHandler from "../middlewares/error.js";
 import { sendToken } from "../utils/jwtToken.js";
-import Material from '../models/materialSchema.js';
+import {  getAllMaterials, getMaterialById } from '../controllers/materialController.js';
 
 // Register a new student
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -22,7 +22,11 @@ export const registerUser = catchAsyncErrors(async (req, res, next) => {
       collegeDepartment,
       yearOfStudy,
     } = req.body;
-  
+      // Check if the user already exists
+      const existingUser = await Student.findOne({ email });
+      if (existingUser) {
+          return next(new ErrorHandler("Student already exists!", 400));
+      }
     let student;
   
     if (institutionType === 'School') {
@@ -96,26 +100,11 @@ export const logoutUser = catchAsyncErrors(async (req, res, next) => {
 });
 
 
-// Get learning materials
-export const getMaterials = catchAsyncErrors(async (req, res, next) => {
-  const materials = await Material.find();
-  res.status(200).json({
-    success: true,
-    materials,
-  });
-});
+// Get all materials
+export const getAllMaterials = getAllMaterials;
 
-// Get learning material by ID
-export const getMaterialById = catchAsyncErrors(async (req, res, next) => {
-  const material = await Material.findById(req.params.id);
-  if (!material) {
-    return next(new ErrorHandler("Material not found!", 404));
-  }
-  res.status(200).json({
-    success: true,
-    material,
-  });
-});
+// Get material by ID
+export const getMaterialById = getMaterialById;
 
 // Get institutions
 export const getInstitutions = catchAsyncErrors(async (req, res, next) => {

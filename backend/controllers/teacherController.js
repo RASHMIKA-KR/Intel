@@ -1,10 +1,9 @@
 import Teacher from '../models/teacherSchema.js';
-import Material from '../models/materialSchema.js';
 import Center from '../models/centerSchema.js';
 import { catchAsyncErrors } from '../middlewares/catchAsyncError.js';
 import ErrorHandler from '../middlewares/error.js';
 import { sendToken } from '../utils/jwtToken.js';
-import { postLearningMaterial } from './materialController.js';
+import { postMaterial, getAllMaterials, getMaterialById, getMyMaterials } from '../controllers/materialController.js';
 
 
 // Register a new teacher
@@ -73,31 +72,16 @@ export const logoutTeacher = catchAsyncErrors(async (req, res, next) => {
 });
 
 // Get all materials
-export const getMaterials = catchAsyncErrors(async (req, res, next) => {
-  const materials = await Material.find();
-  res.status(200).json({
-    success: true,
-    materials,
-  });
-});
+export const getAllMaterials = getAllMaterials;
 
 // Get material by ID
-export const getMaterialById = catchAsyncErrors(async (req, res, next) => {
-  const material = await Material.findById(req.params.id);
-  if (!material) {
-    return next(new ErrorHandler("Material not found!", 404));
-  }
-  res.status(200).json({
-    success: true,
-    material,
-  });
-});
+export const getMaterialById = getMaterialById;
 
-
-// Reuse the postMaterial function
+// Reuse the postMaterial 
 export const postMaterial = postMaterial;
 
-
+// Get my materials
+export const myMaterial=getMyMaterials;
 
 // Create a new center
 export const createCenter = catchAsyncErrors(async (req, res, next) => {
