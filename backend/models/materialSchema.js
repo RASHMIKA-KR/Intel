@@ -13,6 +13,11 @@ const materialSchema = new mongoose.Schema({
     minLength: [10, 'Description must be at least 10 characters'],
     maxLength: [500, 'Description cannot exceed 500 characters'],
   },
+  materialType: {
+    type: String,
+    required: [true, 'Please specify the material type'],
+    enum: ['learning', 'other'],
+  },
   files: [
     {
       url: {
@@ -35,6 +40,45 @@ const materialSchema = new mongoose.Schema({
     type: String,
     enum: ['Instructor', 'Institution', 'Center'],
     required: true,
+  },
+  school: {
+    type: {
+      standard: {
+        type: String,
+        required: function () {
+          return this.materialType === 'learning' && this.schoolOrCollege === 'school';
+        },
+      },
+      subject: {
+        type: String,
+        required: function () {
+          return this.materialType === 'learning' && this.schoolOrCollege === 'school';
+        },
+      },
+    },
+  },
+  college: {
+    type: {
+      subject: {
+        type: String,
+        required: function () {
+          return this.materialType === 'learning' && this.schoolOrCollege === 'college';
+        },
+      },
+    },
+  },
+  schoolOrCollege: {
+    type: String,
+    required: function () {
+      return this.materialType === 'learning';
+    },
+    enum: ['school', 'college'],
+  },
+  domain: {
+    type: String,
+    required: function () {
+      return this.materialType === 'other';
+    },
   },
   createdAt: {
     type: Date,

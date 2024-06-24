@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-  getMaterials,
+  getAllMaterials,
   getMaterialById,
   getInstitutions,
   getInstitutionById,
@@ -12,12 +12,13 @@ import {
   loginUser,
   logoutUser,
 } from '../controllers/studentController.js';
+
 import { isAuthenticated } from '../middlewares/auth.js';
 
 const router = express.Router();
 
-router.get('/learning-materials', isAuthenticated, getMaterials);
-router.get('/learning-materials/:id', isAuthenticated, getMaterialById);
+router.get('/materials', isAuthenticated, getAllMaterials);
+router.get('/materials/:id', isAuthenticated, getMaterialById);
 
 router.get('/institutions', isAuthenticated, getInstitutions);
 router.get('/institutions/:id', isAuthenticated, getInstitutionById);
