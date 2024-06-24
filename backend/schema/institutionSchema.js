@@ -3,7 +3,7 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const studentSchema = new mongoose.Schema({
+const institutionSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Please enter your Name!"],
@@ -13,7 +13,12 @@ const studentSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Please enter your Email!"],
-    validate: [validator.isEmail, "Please provide a valid Email!"],
+    validate: {
+      validator: function(value) {
+        return validator.isEmail(value);
+      },
+      message: "Please provide a valid Email!",
+    },
   },
   password: {
     type: String,
@@ -34,58 +39,57 @@ const studentSchema = new mongoose.Schema({
   age: {
     type: Number,
     required: [true, "Please enter your Age!"],
-    min: [3, "Age must be at least 3 years!"],
-    max: [100, "Age must be at most 100 years!"],
-  },
-  phone: {
-    type: String,
-    required: [true, "Please enter your Phone Number!"],
-    validate: {
-      validator: function(value) {
-        // Check if the phone number is exactly 10 digits and contains only digits
-        return /^[6-9]\d{9}$/.test(value);
-      },
-      message: "Phone number must be exactly 10 digits long and contain only digits!",
-    },
+    min: [21, "Age must be at least 21!"],
   },
   institutionType: {
     type: String,
     required: [true, "Please select an institution type!"],
     enum: ["School", "College"],
   },
-  institutionName: {
+  description: {
     type: String,
-    required: [true, "Please enter your School/College Name!"],
+    maxlength: [500, "Description cannot exceed 500 characters!"],
   },
-  standard: {
-    type: String,
-    required: function() {
-      return this.institutionType === "School";
+  institutionDetails: {
+    name: {
+      type: String,
+      required: function() {
+        return this.institutionType === "School" || this.institutionType === "College";
+      },
     },
-  },
-  collegeDepartment: {
-    type: String,
-    required: function() {
-      return this.institutionType === "College";
+    contactNumber: {
+      type: String,
+      required: function() {
+        return this.institutionType === "School" || this.institutionType === "College";
+      },
+      validate: {
+        validator: function(value) {
+          return /^[6-9]\d{9}$/.test(value);
+        },
+        message: "Contact number must be exactly 10 digits long and contain only digits!",
+      },
     },
+    images: [
+      {
+        type: String, // File paths for images
+        required: true,
+      },
+    ],
   },
-  yearOfStudy: {
-    type: Number,
-    required: function() {
-      return this.institutionType === "College";
-    },
-    min: [1, "Year of study cannot be less than 1!"],
-    max: [5, "Year of study cannot exceed 5!"],
-  },
- 
+  
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
 
+// Custom validator to ensure at least 5 images are uploaded
+institutionSchema.path('institutionDetails.images').validate(function(value) {
+  return value.length >= 5;
+}, 'An institution must have at least 5 images.');
+
 // Pre-save hook to hash the password before saving
-studentSchema.pre("save", async function(next) {
+institutionSchema.pre("save", async function(next) {
   if (!this.isModified("password")) {
     return next();
   }
@@ -99,15 +103,15 @@ studentSchema.pre("save", async function(next) {
 });
 
 // Method to compare passwords
-studentSchema.methods.comparePassword = async function(enteredPassword) {
+institutionSchema.methods.comparePassword = async function(enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
 // Method to generate JWT token
-studentSchema.methods.getJWTToken = function() {
+institutionSchema.methods.getJWTToken = function() {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRE,
   });
 };
 
-export const Student = mongoose.model("Student", studentSchema);
+export const Institution = mongoose.model("Institution", institutionSchema);

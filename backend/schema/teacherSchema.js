@@ -3,7 +3,7 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const studentSchema = new mongoose.Schema({
+const teacherSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Please enter your Name!"],
@@ -34,8 +34,56 @@ const studentSchema = new mongoose.Schema({
   age: {
     type: Number,
     required: [true, "Please enter your Age!"],
-    min: [3, "Age must be at least 3 years!"],
-    max: [100, "Age must be at most 100 years!"],
+    min: [21, "Age must be at least 21!"],
+  },
+  institutionType: {
+    type: String,
+    required: [true, "Please select an institution type!"],
+    enum: ["School", "College", "Center"],
+  },
+  institutionDetails: {
+    school: {
+      name: {
+        type: String,
+        required: function() {
+          return this.institutionType === "School";
+        },
+      },
+      subject: {
+        type: String,
+        required: function() {
+          return this.institutionType === "School";
+        },
+      },
+    },
+    college: {
+      name: {
+        type: String,
+        required: function() {
+          return this.institutionType === "College";
+        },
+      },
+      department: {
+        type: String,
+        required: function() {
+          return this.institutionType === "College";
+        },
+      },
+    },
+    center: {
+      name: {
+        type: String,
+        required: function() {
+          return this.institutionType === "Center";
+        },
+      },
+      domain: {
+        type: String,
+        required: function() {
+          return this.institutionType === "Center";
+        },
+      },
+    },
   },
   phone: {
     type: String,
@@ -48,36 +96,6 @@ const studentSchema = new mongoose.Schema({
       message: "Phone number must be exactly 10 digits long and contain only digits!",
     },
   },
-  institutionType: {
-    type: String,
-    required: [true, "Please select an institution type!"],
-    enum: ["School", "College"],
-  },
-  institutionName: {
-    type: String,
-    required: [true, "Please enter your School/College Name!"],
-  },
-  standard: {
-    type: String,
-    required: function() {
-      return this.institutionType === "School";
-    },
-  },
-  collegeDepartment: {
-    type: String,
-    required: function() {
-      return this.institutionType === "College";
-    },
-  },
-  yearOfStudy: {
-    type: Number,
-    required: function() {
-      return this.institutionType === "College";
-    },
-    min: [1, "Year of study cannot be less than 1!"],
-    max: [5, "Year of study cannot exceed 5!"],
-  },
- 
   createdAt: {
     type: Date,
     default: Date.now,
@@ -85,7 +103,7 @@ const studentSchema = new mongoose.Schema({
 });
 
 // Pre-save hook to hash the password before saving
-studentSchema.pre("save", async function(next) {
+teacherSchema.pre("save", async function(next) {
   if (!this.isModified("password")) {
     return next();
   }
@@ -99,15 +117,15 @@ studentSchema.pre("save", async function(next) {
 });
 
 // Method to compare passwords
-studentSchema.methods.comparePassword = async function(enteredPassword) {
+teacherSchema.methods.comparePassword = async function(enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
 // Method to generate JWT token
-studentSchema.methods.getJWTToken = function() {
+teacherSchema.methods.getJWTToken = function() {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRE,
   });
 };
 
-export const Student = mongoose.model("Student", studentSchema);
+export const Teacher = mongoose.model("Teacher", teacherSchema);
