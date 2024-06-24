@@ -31,6 +31,23 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please enter your Address!"],
   },
+  age: {
+    type: Number,
+    required: [true, "Please enter your Age!"],
+    min: [3, "Age must be at least 3 years!"],
+    max: [100, "Age must be at most 100 years!"],
+  },
+  phone: {
+    type: String,
+    required: [true, "Please enter your Phone Number!"],
+    validate: {
+      validator: function(value) {
+        // Check if the phone number is exactly 10 digits and contains only digits
+        return /^[6-9]\d{9}$/.test(value);
+      },
+      message: "Phone number must be exactly 10 digits long and contain only digits!",
+    },
+  },
   institutionType: {
     type: String,
     required: [true, "Please select an institution type!"],
@@ -60,17 +77,7 @@ const studentSchema = new mongoose.Schema({
     min: [1, "Year of study cannot be less than 1!"],
     max: [5, "Year of study cannot exceed 5!"],
   },
-  phone: {
-    type: String,
-    required: [true, "Please enter your Phone Number!"],
-    validate: {
-      validator: function(value) {
-        // Check if the phone number is exactly 10 digits and contains only digits
-        return /^[6-9]\d{9}$/.test(value);
-      },
-      message: "Phone number must be exactly 10 digits long and contain only digits!",
-    },
-  },
+ 
   createdAt: {
     type: Date,
     default: Date.now,
