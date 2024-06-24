@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
-import validator from "validator";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
 const centerSchema = new mongoose.Schema({
   name: {
@@ -55,38 +53,36 @@ const centerSchema = new mongoose.Schema({
       required: [true, "Please enter the Course Duration!"],
     },
   }],
+
+  images: [
+    {
+      public_id: {
+        type: String,
+        required: true,
+      },
+      url: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
 
-// Pre-save hook to hash the password before saving
-centerSchema.pre("save", async function(next) {
+centerSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
-    return next();
-  }
-  try {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
     next();
-  } catch (error) {
-    next(error);
   }
+  this.password = await bcrypt.hash(this.password, 10);
 });
 
-// Method to compare passwords
-centerSchema.methods.comparePassword = async function(enteredPassword) {
+centerSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-// Method to generate JWT token
-centerSchema.methods.getJWTToken = function() {
-  return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: process.env.JWT_EXPIRE,
-  });
-};
+export const Center=mongoose.model("Center", centerSchema);
 
-export const Center = mongoose.model("Center", centerSchema);
-
-export default Center;
+export default Center;
