@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 dbConnection();
 app.use(fileUpload({ useTempFiles: true, tempFileDir: '/tmp/' }));
-app.use('/api/v1/student', studentRouter);
+app.use('/api/student', studentRouter);
 //app.use('/api/v1/instructor', instructorRouter);
 //app.use('/api/v1/admin', adminRouter);
 app.use(errorMiddleware);
