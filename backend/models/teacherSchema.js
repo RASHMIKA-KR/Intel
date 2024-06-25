@@ -4,6 +4,12 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const teacherSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    required: true,
+    enum: ["teacher"],
+    default: "teacher",
+  },
   name: {
     type: String,
     required: [true, "Please enter your Name!"],

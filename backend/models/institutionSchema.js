@@ -4,6 +4,17 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const institutionSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    required: true,
+    enum: ["institution"],
+    default: "institution",
+  },
+  status: {
+    type: String,
+    enum: ['Pending', 'Approved','Denied'],
+    default: 'Pending',
+  },
   name: {
     type: String,
     required: [true, "Please enter your Name!"],
@@ -27,19 +38,24 @@ const institutionSchema = new mongoose.Schema({
     maxLength: [32, "Password cannot exceed 32 characters!"],
     select: false,
   },
-  gender: {
+  phone: {
     type: String,
-    required: [true, "Please select your Gender!"],
-    enum: ["Male", "Female", "Other"],
+    required: [true, "Please enter the Center Phone Number!"],
+    validate: {
+      validator: function(value) {
+        // Check if the phone number is exactly 10 digits and contains only digits
+        return /^[6-9]\d{9}$/.test(value);
+      },
+      message: "Phone number must be exactly 10 digits long and contain only digits!",
+    },
   },
   address: {
     type: String,
     required: [true, "Please enter your Address!"],
   },
-  age: {
-    type: Number,
-    required: [true, "Please enter your Age!"],
-    min: [21, "Age must be at least 21!"],
+  website: {
+    type: String,
+    required: [true, "Please enter your Website URL!"],
   },
   institutionType: {
     type: String,

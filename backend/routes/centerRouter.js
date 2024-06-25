@@ -3,38 +3,65 @@ import {
   registerCenter,
   loginCenter,
   logoutCenter,
-  postMaterial,
-  getMaterials,
-  getMaterialById,
-  postAdmission,
-  getAdmissions,
-  getAdmissionById,
-  getAdmissionEnquiry,
-  getAdmissionEnquiryById,
+  allPostedMaterials,
+  postedMaterialById,
+  materialsPostedByMe,
+  newMaterialPost,
+  deletetheMaterial,
+  postNewAdmission,
+  getPostedAdmissions,
+  getSingleAdmission,
+  updatetheAdmission,
+  deletetheAdmission,
+  getEveryAdmissionEnquiry,
+  getSingleAdmissionEnquiry,
+  CreateVacancy,
+  UpdateVacancy,
+  DelVacancy,
   getCenterProfile,
   updateCenterProfile,
+  updateStatusOfEnquiry,
+  getvEnquiryById,
+  getAllvEnquiries,
+  getvacanciesbyMe,
+  getvacancybyId,
+  updatevEnquiryStatus,
 } from "../controllers/centerController.js";
-import { isAuthenticatedUser, authorizeRoles } from "../middlewares/auth.js"; // Assuming you have auth middlewares
+import {isAuthenticated ,isCenter} from "../middlewares/auth.js"; 
 
 const router = express.Router();
+router.post('/register', registerCenter);
+router.post('/login', loginCenter);
+router.post('/logout', isAuthenticated,logoutCenter);
 
-router.route("/center/register").post(registerCenter);
-router.route("/center/login").post(loginCenter);
-router.route("/center/logout").get(logoutCenter);
+router.get('/materials', isAuthenticated,isCenter,allPostedMaterials);
+router.get('/materials/:id', isAuthenticated, isCenter,postedMaterialById);
+router.get('/myMaterials', isAuthenticated, isCenter,materialsPostedByMe);
+router.post('/postMaterial', isAuthenticated,isCenter, newMaterialPost);
+router.delete('/delmaterial/:id', isAuthenticated,isCenter,deletetheMaterial);
 
-router.route("/center/material").post(isAuthenticatedUser, authorizeRoles("Center"), postMaterial);
-router.route("/center/materials").get(getMaterials);
-router.route("/center/material/:id").get(getMaterialById);
+router.post("/postAdmission",isAuthenticated,isCenter, postNewAdmission);
+router.get("/admissions",isAuthenticated,isCenter,getPostedAdmissions);
+router.get("/admission/:id",isAuthenticated,isCenter,getSingleAdmission);
+router.put('/putAdmission/:id', isAuthenticated, isCenter,updatetheAdmission);
+router.delete('/delAdmission/:id', isAuthenticated, isCenter,deletetheAdmission);
 
-router.route("/center/admission").post(isAuthenticatedUser, authorizeRoles("Center"), postAdmission);
-router.route("/center/admissions").get(getAdmissions);
-router.route("/center/admission/:id").get(getAdmissionById);
+router.get("/admission-enquiries",isAuthenticated, isCenter,getEveryAdmissionEnquiry);
+router.get("/admission-enquiry/:id",isAuthenticated,isCenter,  getSingleAdmissionEnquiry);
+router.put('/admissionEnquiry/:id/status', isAuthenticated,isCenter, updateStatusOfEnquiry);
 
-router.route("/center/admission-enquiries").get(isAuthenticatedUser, authorizeRoles("Center"), getAdmissionEnquiry);
-router.route("/center/admission-enquiry/:id").get(isAuthenticatedUser, authorizeRoles("Center"), getAdmissionEnquiryById);
+router.get('allvacancy',isAuthenticated,isCenter,getvacanciesbyMe);
+router.post('/vacancy', isAuthenticated,isCenter, CreateVacancy);
+router.put('/vacancy/:id', isAuthenticated, isCenter, UpdateVacancy);
+router.delete('/vacancy/:id', isAuthenticated,isCenter, DelVacancy);
+router.get('/vacancy/:id', isAuthenticated, isCenter,getvacancybyId);
 
-router.route("/center/profile").get(isAuthenticatedUser, authorizeRoles("Center"), getCenterProfile);
-router.route("/center/profile/update").put(isAuthenticatedUser, authorizeRoles("Center"), updateCenterProfile);
+router.get("/vacancy-enquiries",isAuthenticated, isCenter,getAllvEnquiries);
+router.get("/vacancy-enquiry/:id",isAuthenticated,isCenter,  getvEnquiryById);
+router.put('/vacancyEnquiry/:id/status', isAuthenticated,isCenter, updatevEnquiryStatus);
+
+
+router.route("/profile").get(isAuthenticated, isCenter,getCenterProfile);
+router.route("/profile/update").put(isAuthenticated, isCenter,updateCenterProfile);
 
 export default router;
- 

@@ -1,7 +1,19 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import validator from "validator"; // Import the validator module
 
 const centerSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    required: true,
+    enum: ["center"],
+    default: "center",
+  },
+  status: {
+    type: String,
+    enum: ['Pending', 'Approved','Denied'],
+    default: 'Pending',
+  },
   name: {
     type: String,
     required: [true, "Please enter the Center Name!"],
@@ -82,7 +94,12 @@ centerSchema.pre("save", async function (next) {
 centerSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
-
+// Method to generate JWT token
+centerSchema.methods.getJWTToken = function() {
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
+    expiresIn: process.env.JWT_EXPIRE,
+  });
+};
 export const Center=mongoose.model("Center", centerSchema);
 
 export default Center;

@@ -1,9 +1,11 @@
 import Center from '../models/centerSchema.js';
-import Material from '../models/materialSchema.js';
-import Admission from '../models/admissionSchema.js';
+import { getAllMaterials, getMaterialById, getMyMaterials, postMaterial,deleteSingleMaterial } from './materialController.js';
 import { catchAsyncErrors } from '../middlewares/catchAsyncError.js';
 import ErrorHandler from '../middlewares/error.js';
-import cloudinary from '../config/cloudinary.js'; // Assuming you have a cloudinary configuration file
+import cloudinary from "cloudinary";
+import { getAdmissionEnquiryById,getAllAdmissionEnquiries,changeEnquiryStatus } from './admissionEnquiryController.js';
+import {postVacancy,updatevacancy,deleteVacancy,getVacanciesByMe,getVacancyById} from '../controllers/vacancyController.js';
+import {getVacancyEnquiryById,getAllVacancyEnquiries,changeVacancyEnquiryStatus} from '../controllers/vacancyEnquiryController.js';
 
 // Register a new center with image upload
 export const registerCenter = catchAsyncErrors(async (req, res, next) => {
@@ -14,8 +16,17 @@ export const registerCenter = catchAsyncErrors(async (req, res, next) => {
     type,
     address,
     phone,
+    institutionName,
+    institutionDetails,
     courses,
   } = req.body;
+
+  // Check if any required fields are missing
+  const requiredFields = ['name', 'email', 'password', 'address', 'type', 'phone', 'institutionName', 'institutionDetails', 'courses'];
+  const missingFields = requiredFields.filter(field => !req.body[field]);
+  if (missingFields.length > 0) {
+    return next(new ErrorHandler(`Missing required fields: ${missingFields.join(', ')}`, 400));
+  }
 
   // Check if there are any images uploaded
   if (!req.files || Object.keys(req.files).length === 0) {
@@ -51,7 +62,7 @@ export const registerCenter = catchAsyncErrors(async (req, res, next) => {
     });
   }
 
-  // Save center details with uploaded images
+  // Save center details with uploaded images and pending status
   const center = new Center({
     name,
     email,
@@ -59,14 +70,16 @@ export const registerCenter = catchAsyncErrors(async (req, res, next) => {
     type,
     address,
     phone,
+    institutionName,
+    institutionDetails,
     courses,
     images: uploadedImages,
+    status: "Pending", // Initial status for approval
   });
 
   await center.save();
-  sendToken(center, 201, res, "Center Registered Successfully!");
+  sendToken(center, 201, res, "Center Registration Pending Approval");
 });
-
 // Login a center
 export const loginCenter = catchAsyncErrors(async (req, res, next) => {
   const { email, password } = req.body;
@@ -80,7 +93,9 @@ export const loginCenter = catchAsyncErrors(async (req, res, next) => {
   if (!center) {
     return next(new ErrorHandler("Invalid Email or Password!", 400));
   }
-
+  if (center.status !== "Approved") {
+    return next(new ErrorHandler("Institution is not approved yet!", 403));
+  }
   const isPasswordMatched = await center.comparePassword(password);
 
   if (!isPasswordMatched) {
@@ -103,131 +118,98 @@ export const logoutCenter = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// Post a new learning material with Cloudinary integration
-export const postMaterial = catchAsyncErrors(async (req, res, next) => {
-  if (!req.files || Object.keys(req.files).length === 0) {
-    return next(new ErrorHandler("File Required!", 400));
-  }
-
-  const { file } = req.files; // Assuming 'file' is the key for file upload
-
-  // Check if the file format is allowed
-  const allowedFormats = ["image/png", "image/jpeg", "image/webp", "video/mp4", "application/pdf"];
-  if (!allowedFormats.includes(file.mimetype)) {
-    return next(
-      new ErrorHandler("Invalid file type. Please upload a valid file.", 400)
-    );
-  }
-
-  // Upload file to Cloudinary
-  const cloudinaryResponse = await cloudinary.uploader.upload(file.tempFilePath);
-
-  if (!cloudinaryResponse || cloudinaryResponse.error) {
-    console.error(
-      "Cloudinary Error:",
-      cloudinaryResponse.error || "Unknown Cloudinary error"
-    );
-    return next(new ErrorHandler("Failed to upload Material to Cloudinary", 500));
-  }
-
-  // Save material details to MongoDB
-  const { title, description, category } = req.body;
-  const newMaterial = new Material({
-    title,
-    description,
-    category,
-    file: {
-      public_id: cloudinaryResponse.public_id,
-      url: cloudinaryResponse.secure_url,
-    },
-    center: req.user.id, // Assuming authenticated user's center ID is stored in req.user.id
-  });
-
-  await newMaterial.save();
-
-  res.status(201).json({
-    success: true,
-    material: newMaterial,
-  });
+export const allPostedMaterials = catchAsyncErrors(async (req, res, next) => {
+  await getAllMaterials(req, res, next);
 });
 
-// Get all learning materials
-export const getMaterials = catchAsyncErrors(async (req, res, next) => {
-  const materials = await Material.find();
-  res.status(200).json({
-    success: true,
-    materials,
-  });
+export const postedMaterialById = catchAsyncErrors(async (req, res, next) => {
+  await getMaterialById(req, res, next);
 });
 
-// Get learning material by ID
-export const getMaterialById = catchAsyncErrors(async (req, res, next) => {
-  const material = await Material.findById(req.params.id);
-  if (!material) {
-    return next(new ErrorHandler("Material not found!", 404));
-  }
-  res.status(200).json({
-    success: true,
-    material,
-  });
+export const materialsPostedByMe = catchAsyncErrors(async (req, res, next) => {
+  await getMyMaterials(req, res, next);
+});
+
+export const newMaterialPost = catchAsyncErrors(async (req, res, next) => {
+  await postMaterial(req, res, next);
+});
+
+export const deletetheMaterial=catchAsyncErrors(async(req,res,next)=>{
+  await deleteMaterial(req,res,next);
 });
 
 // Post a new admission
-export const postAdmission = catchAsyncErrors(async (req, res, next) => {
-  const { name, age, grade, centerId } = req.body;
-
-  const newAdmission = new Admission({ name, age, grade, center: centerId });
-
-  await newAdmission.save();
-
-  res.status(201).json({
-    success: true,
-    admission: newAdmission,
-  });
+export const postNewAdmission = catchAsyncErrors(async (req, res, next) => {
+  req.body.center = req.user.centerId;  // Ensure the admission is linked to the center
+  await createAdmission(req, res, next);
 });
 
 // Get all admissions
-export const getAdmissions = catchAsyncErrors(async (req, res, next) => {
-  const admissions = await Admission.find();
-  res.status(200).json({
-    success: true,
-    admissions,
-  });
+export const getPostedAdmissions = catchAsyncErrors(async (req, res, next) => {
+  await getMyAdmissions(req,res,next);
+
 });
 
 // Get admission by ID
-export const getAdmissionById = catchAsyncErrors(async (req, res, next) => {
-  const admission = await Admission.findById(req.params.id);
-  if (!admission) {
-    return next(new ErrorHandler("Admission not found!", 404));
-  }
-  res.status(200).json({
-    success: true,
-    admission,
-  });
+export const getSingleAdmission = catchAsyncErrors(async (req, res, next) => {
+  await getAdmissionById(req, res, next);
+});
+
+export const updatetheAdmission=catchAsyncErrors(async(req,res,next)=>{
+  await updateAdmission(req,res,next);
+});
+
+export const deletetheAdmission=catchAsyncErrors(async(req,res,next)=>{
+  await deleteAdmission(req,res,next);
 });
 
 // Get admission enquiries for the authenticated center
-export const getAdmissionEnquiry = catchAsyncErrors(async (req, res, next) => {
-  const admissions = await Admission.find({ center: req.user.id });
-  res.status(200).json({
-    success: true,
-    admissions,
-  });
+export const getEveryAdmissionEnquiry = catchAsyncErrors(async (req, res, next) => {
+  await getAllAdmissionEnquiries(req,res,next);
 });
 
 // Get a specific admission enquiry by ID for the authenticated center
-export const getAdmissionEnquiryById = catchAsyncErrors(async (req, res, next) => {
-  const admission = await Admission.findOne({ _id: req.params.id, center: req.user.id });
-  if (!admission) {
-    return next(new ErrorHandler("Admission enquiry not found!", 404));
-  }
-  res.status(200).json({
-    success: true,
-    admission,
-  });
+export const getSingleAdmissionEnquiry = catchAsyncErrors(async (req, res, next) => {
+  await getAdmissionEnquiryById(req,res,next);
 });
 
+export const updateStatusOfEnquiry=catchAsyncErrors(async(req,res,next)=>{
+  await changeEnquiryStatus(req,res,next);
+});
+
+export const UpdateVacancy=catchAsyncErrors(async(req,res,next)=>{
+  await updatevacancy(req,res,next);
+});
+
+export const DelVacancy=catchAsyncErrors(async(req,res,next)=>{
+  await deleteVacancy(req,res,next);
+});
+
+export const CreateVacancy=catchAsyncErrors(async(req,res,next)=>{
+  req.body.postedByModel = 'Center';
+  req.user.institutionId = req.user._id;  // Assuming req.user._id is the institution's ID
+  await postVacancy(req, res, next);
+});
+
+export const getvacanciesbyMe = catchAsyncErrors(async (req, res, next) => {
+  await getVacanciesByMe(req, res, next);
+});
+export const getvacancybyId = catchAsyncErrors(async (req, res, next) => {
+  await getVacancyById(req, res, next);
+});
+// Get admission enquiries for the authenticated institution
+export const getAllvEnquiries = catchAsyncErrors(async (req, res, next) => {
+  await getAllVacancyEnquiries(req,res,next);
+});
+
+// Get a specific admission enquiry by ID for the authenticated institution
+export const getvEnquiryById = catchAsyncErrors(async (req, res, next) => {
+  await getVacancyEnquiryById(req,res,next);
+});
+
+export const updatevEnquiryStatus=catchAsyncErrors(async(req,res,next)=>{
+  await changeVacancyEnquiryStatus(req,res,next);
+});
 // Get center profile
 export const getCenterProfile = catchAsyncErrors(async (req, res, next) => {
   const center = await Center.findById(req.user.id);

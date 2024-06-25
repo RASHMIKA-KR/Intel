@@ -4,7 +4,8 @@ import Center  from "../models/centerSchema.js";
 import { catchAsyncErrors } from "../middlewares/catchAsyncError.js";
 import ErrorHandler from "../middlewares/error.js";
 import { sendToken } from "../utils/jwtToken.js";
-import { getAllMaterials, getMaterialById } from '../controllers/materialController.js';
+import { getAllMaterials, getMaterialById} from './materialController.js';
+import { applyToAdmission, getMyAdmissionEnquiries} from './admissionEnquiryController.js';
 
 // Register a new student
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -22,6 +23,11 @@ export const registerUser = catchAsyncErrors(async (req, res, next) => {
       collegeDepartment,
       yearOfStudy,
     } = req.body;
+    if (!name || !email || !password || !gender || !address || !age || !phone || !institutionType || !institutionName ||
+      (institutionType === 'school' && !standard) ||
+      (institutionType === 'college' && (!collegeDepartment || !yearOfStudy))) {
+      return next(new ErrorHandler('Please fill in all required fields', 400));
+  }
       // Check if the user already exists
       const existingUser = await Student.findOne({ email });
       if (existingUser) {
@@ -31,6 +37,7 @@ export const registerUser = catchAsyncErrors(async (req, res, next) => {
   
     if (institutionType === 'School') {
       student = await Student.create({
+        type,
         name,
         email,
         password,
@@ -100,11 +107,13 @@ export const logoutUser = catchAsyncErrors(async (req, res, next) => {
 });
 
 
-// Get all materials
-export const getAllMaterials = getAllMaterials;
+export const getStudentMaterials = catchAsyncErrors(async (req, res, next) => {
+  await getAllMaterials(req, res, next);
+});
 
-// Get material by ID
-export const getMaterialById = getMaterialById;
+export const getStudentMaterialById = catchAsyncErrors(async (req, res, next) => {
+  await getMaterialById(req, res, next);
+});
 
 // Get institutions
 export const getInstitutions = catchAsyncErrors(async (req, res, next) => {
@@ -147,6 +156,39 @@ export const getCenterById = catchAsyncErrors(async (req, res, next) => {
     center,
   });
 });
+
+// Get all posted admissions
+export const getAllPostedAdmissions = catchAsyncErrors(async (req, res, next) => {
+  await getAdmissions(req, res, next);
+
+});
+
+// Get posted admission by ID
+export const getPostedAdmissionById = catchAsyncErrors(async (req, res, next) => {
+  await getAdmissionById(req, res, next);
+});
+
+// Apply to admission
+export const applyToAnyAdmission = catchAsyncErrors(async (req, res, next) => {
+  await applyToAdmission(req, res, next);
+
+});
+export const getmyAdmissionEnquiries= catchAsyncErrors(async (req, res, next) => {
+  await getMyAdmissionEnquiries(req, res, next);
+
+});
+// Apply to center admission
+export const applyToCenterAdmission = catchAsyncErrors(async (req, res, next) => {
+  await applyToAdmission(req, res, next);
+
+});
+
+// Apply to institution admission
+export const applyToInstitutionAdmission = catchAsyncErrors(async (req, res, next) => {
+  await applyToAdmission(req, res, next);
+
+});
+
 
 // Get student profile
 export const getProfile = catchAsyncErrors(async (req, res, next) => {

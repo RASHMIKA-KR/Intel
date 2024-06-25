@@ -9,7 +9,7 @@ import studentRouter from './routes/studentRouter.js';
 import teacherRouter from './routes/teacherRouter.js';
 import institutionRouter from './routes/institutionRouter.js';
 import centerRouter from './routes/centerRouter.js';
-// import adminRouter from './routes/adminRouter.js';
+import adminRouter from './routes/adminRouter.js';
 
 const app = express();
 dotenv.config({ path: './config/config.env' });
@@ -28,7 +28,7 @@ app.use('/api/student', studentRouter);
 app.use('/api/teacher', teacherRouter);
 app.use('/api/institution', institutionRouter);
 app.use('/api/center', centerRouter);
-//app.use('/api/admin', adminRouter);
+app.use('/api/admin', adminRouter);
 app.use(errorMiddleware);
 
 export default app;

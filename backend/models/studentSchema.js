@@ -4,6 +4,10 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const studentSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    default: "student",
+  },
   name: {
     type: String,
     required: [true, "Please enter your Name!"],
@@ -13,7 +17,7 @@ const studentSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Please enter your Email!"],
-    validate: [validator.isEmail, "Please provide a valid Email!"],
+    validate: [validator.isEmail, 'Please provide a valid email'],
   },
   password: {
     type: String,
@@ -103,12 +107,11 @@ studentSchema.methods.comparePassword = async function(enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-// Method to generate JWT token
 studentSchema.methods.getJWTToken = function() {
-  return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
+  const tokenData = { id: this._id, type: this.type };
+  return jwt.sign(tokenData, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRE,
   });
 };
-
 export const Student = mongoose.model("Student", studentSchema);
 export default Student;

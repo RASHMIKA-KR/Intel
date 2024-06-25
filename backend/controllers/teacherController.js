@@ -1,10 +1,10 @@
-import Teacher from '../models/teacherSchema.js';
-import Center from '../models/centerSchema.js';
+import {Teacher} from '../models/teacherSchema.js';
 import { catchAsyncErrors } from '../middlewares/catchAsyncError.js';
 import ErrorHandler from '../middlewares/error.js';
 import { sendToken } from '../utils/jwtToken.js';
-import { postMaterial, getAllMaterials, getMaterialById, getMyMaterials } from '../controllers/materialController.js';
-
+import { getAllMaterials, getMaterialById, getMyMaterials, postMaterial,deleteSingleMaterial } from './materialController.js';
+import { applyToVacancy,getMyVacancyEnquiries} from '../controllers/vacancyEnquiryController.js';
+import { getAllVacancies,getVacancyById} from './vacancyController.js';
 // Register a new teacher
 export const registerTeacher = catchAsyncErrors(async (req, res, next) => {
   const {
@@ -18,7 +18,17 @@ export const registerTeacher = catchAsyncErrors(async (req, res, next) => {
     institutionType,
     institutionDetails,
   } = req.body;
-
+  // Check if any required fields are missing
+  const requiredFields = ['name', 'email', 'password', 'gender', 'address', 'age', 'phone', 'institutionType', 'institutionName'];
+  const missingFields = requiredFields.filter(field => !req.body[field]);
+  if (missingFields.length > 0) {
+      return next(new ErrorHandler(`Missing required fields: ${missingFields.join(', ')}`, 400));
+  }
+    // Check if the user already exists
+    const existingUser = await Student.findOne({ email });
+    if (existingUser) {
+        return next(new ErrorHandler("Teacher already exists!", 400));
+    }
   const teacher = await Teacher.create({
     name,
     email,
@@ -70,31 +80,40 @@ export const logoutTeacher = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// Get all materials
-export const getAllMaterials = getAllMaterials;
 
-// Get material by ID
-export const getMaterialById = getMaterialById;
-
-// Reuse the postMaterial 
-export const postMaterial = postMaterial;
-
-// Get my materials
-export const getMyMaterials=getMyMaterials;
-
-// Create a new center
-export const createCenter = catchAsyncErrors(async (req, res, next) => {
-  const { name, address, phone, domain } = req.body;
-  const center = await Center.create({
-    name,
-    address,
-    phone,
-    domain,
-  });
-
-  res.status(201).json({
-    success: true,
-    center,
-    message: "Center Created Successfully!",
-  });
+export const getAllPostedMaterials = catchAsyncErrors(async (req, res, next) => {
+  await getAllMaterials(req, res, next);
 });
+
+export const getPostedMaterialById = catchAsyncErrors(async (req, res, next) => {
+  await getMaterialById(req, res, next);
+});
+
+export const getMaterialsPostedByMe = catchAsyncErrors(async (req, res, next) => {
+  await getMyMaterials(req, res, next);
+});
+
+export const postNewMaterial = catchAsyncErrors(async (req, res, next) => {
+  await postMaterial(req, res, next);
+});
+export const deletePostMaterial=catchAsyncErrors(async(req,res,next)=>{
+  await deleteSingleMaterial(req,res,next);
+});
+
+export const getAllvacancies = catchAsyncErrors(async (req, res, next) => {
+  await getAllVacancies(req, res, next);
+});
+export const getvacancybyid = catchAsyncErrors(async (req, res, next) => {
+  await getVacancyById(req, res, next);
+});
+
+export const applytoVacancy = catchAsyncErrors(async (req, res, next) => {
+  await applyToVacancy(req, res, next);
+
+});
+
+export const getmyVacancyEnquiries= catchAsyncErrors(async (req, res, next) => {
+  await getMyVacancyEnquiries(req, res, next);
+
+});
+
