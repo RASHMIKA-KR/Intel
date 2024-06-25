@@ -1,10 +1,10 @@
-import  Student  from "../models/studentSchema.js";
+import Student from "../models/studentSchema.js";
 import Institution from "../models/institutionSchema.js"; 
-import Center  from "../models/centerSchema.js"; 
+import Center from "../models/centerSchema.js"; 
 import { catchAsyncErrors } from "../middlewares/catchAsyncError.js";
 import ErrorHandler from "../middlewares/error.js";
 import { sendToken } from "../utils/jwtToken.js";
-import { getAllMaterials, getMaterialById } from '../controllers/materialController.js';
+import { getAllMaterials as getAllMaterialsFromController, getMaterialById as getMaterialByIdFromController } from '../controllers/materialController.js';
 
 // Register a new student
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -99,12 +99,11 @@ export const logoutUser = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-
 // Get all materials
-export const getAllMaterials = getAllMaterials;
+export const getAllMaterials = getAllMaterialsFromController;
 
 // Get material by ID
-export const getMaterialById = getMaterialById;
+export const getMaterialById = getMaterialByIdFromController;
 
 // Get institutions
 export const getInstitutions = catchAsyncErrors(async (req, res, next) => {
@@ -159,18 +158,17 @@ export const getProfile = catchAsyncErrors(async (req, res, next) => {
 
 // Update student profile
 export const updateProfile = catchAsyncErrors(async (req, res, next) => {
-    const { id } = req.user; // Assuming req.user.id contains the student's ID
-  
-    const updatedStudent = await Student.findByIdAndUpdate(
-      id,
-      req.body,
-      { new: true, runValidators: true, useFindAndModify: false }
-    );
-  
-    res.status(200).json({
-      success: true,
-      student: updatedStudent,
-      message: "Profile Updated!",
-    });
+  const { id } = req.user; // Assuming req.user.id contains the student's ID
+
+  const updatedStudent = await Student.findByIdAndUpdate(
+    id,
+    req.body,
+    { new: true, runValidators: true, useFindAndModify: false }
+  );
+
+  res.status(200).json({
+    success: true,
+    student: updatedStudent,
+    message: "Profile Updated!",
   });
-  
+});

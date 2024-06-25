@@ -34,7 +34,7 @@ export const getMaterialById = catchAsyncErrors(async (req, res, next) => {
 });
 
 // Post new learning material
-export const postLearningMaterial = catchAsyncErrors(async (req, res, next) => {
+export const postMaterial = catchAsyncErrors(async (req, res, next) => {
     const { title, description, category, uploadedByModel } = req.body;
     
     if (!req.files || Object.keys(req.files).length === 0) {

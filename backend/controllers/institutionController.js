@@ -3,8 +3,9 @@ import Material from '../models/materialSchema.js';
 import Admission from '../models/admissionSchema.js';
 import { catchAsyncErrors } from '../middlewares/catchAsyncError.js';
 import ErrorHandler from '../middlewares/error.js';
-import cloudinary from '../config/cloudinary.js'; // Assuming you have a cloudinary configuration file
+import cloudinary from 'cloudinary';
 import { postMaterial, getAllMaterials, getMaterialById, getMyMaterials } from '../controllers/materialController.js';
+
 // Register a new institution with image upload
 export const registerInstitution = catchAsyncErrors(async (req, res, next) => {
     const {
@@ -71,7 +72,8 @@ export const registerInstitution = catchAsyncErrors(async (req, res, next) => {
   
     await institution.save();
     sendToken(institution, 201, res, "Institution Registered Successfully!");
-  });
+});
+
 // Login an institution
 export const loginInstitution = catchAsyncErrors(async (req, res, next) => {
   const { email, password } = req.body;
@@ -107,17 +109,7 @@ export const logoutInstitution = catchAsyncErrors(async (req, res, next) => {
     message: "Logged Out Successfully!",
   });
 });
-// Get all materials
-export const getAllMaterials = getAllMaterials;
 
-// Get material by ID
-export const getMaterialById = getMaterialById;
-
-// Reuse the postMaterial 
-export const postMaterial = postMaterial;
-
-// Get my materials
-export const getMyMaterials=getMyMaterials;
 // Post a new admission
 export const postAdmission = catchAsyncErrors(async (req, res, next) => {
   const { name, age, grade, institutionId } = req.body;
@@ -183,9 +175,6 @@ export const getInstitutionProfile = catchAsyncErrors(async (req, res, next) => 
   });
 });
 
-
-
-
 // Update institution profile
 export const updateInstitutionProfile = catchAsyncErrors(async (req, res, next) => {
   const { id } = req.user; // Assuming req.user.id contains the institution's ID
@@ -203,3 +192,14 @@ export const updateInstitutionProfile = catchAsyncErrors(async (req, res, next) 
   });
 });
 
+// Get all materials
+export { getAllMaterials };
+
+// Get material by ID
+export { getMaterialById };
+
+// Post a new material
+export { postMaterial };
+
+// Get my materials
+export { getMyMaterials };

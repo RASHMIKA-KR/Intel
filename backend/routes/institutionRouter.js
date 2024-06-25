@@ -4,7 +4,7 @@ import {
   registerInstitution,
   loginInstitution,
   logoutInstitution,
-  getMaterials,
+  getAllMaterials,
   getMaterialById,
   postAdmission,
   getAdmissions,
@@ -31,7 +31,7 @@ router.put('/updateProfile', isAuthenticated, updateInstitutionProfile);
 // Learning Materials Routes
 
 router.post('/material', isAuthenticated, postMaterial);
-router.get('/materials', isAuthenticated, getMaterials);
+router.get('/materials', isAuthenticated, getAllMaterials);
 router.get('/materials/:id', isAuthenticated, getMaterialById);
 
 // Admissions Routes

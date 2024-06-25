@@ -3,8 +3,8 @@ import Material from '../models/materialSchema.js';
 import Admission from '../models/admissionSchema.js';
 import { catchAsyncErrors } from '../middlewares/catchAsyncError.js';
 import ErrorHandler from '../middlewares/error.js';
-import cloudinary from '../config/cloudinary.js'; // Assuming you have a cloudinary configuration file
-
+//import cloudinary from '../config/cloudinary.js'; // Assuming you have a cloudinary configuration file
+import cloudinary from 'cloudinary';
 // Register a new center with image upload
 export const registerCenter = catchAsyncErrors(async (req, res, next) => {
   const {
