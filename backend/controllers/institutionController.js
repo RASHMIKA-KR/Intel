@@ -239,3 +239,14 @@ export const updateInstitutionProfile = catchAsyncErrors(async (req, res, next) 
   });
 });
 
+// Get all materials
+export { getAllMaterials };
+
+// Get material by ID
+export { getMaterialById };
+
+// Post a new material
+export { postMaterial };
+
+// Get my materials
+export { getMyMaterials };

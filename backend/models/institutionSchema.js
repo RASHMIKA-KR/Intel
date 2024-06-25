@@ -78,6 +78,7 @@ const institutionSchema = new mongoose.Schema({
       required: function() {
         return this.institutionType === "School" || this.institutionType === "College";
       },
+      
       validate: {
         validator: function(value) {
           return /^[6-9]\d{9}$/.test(value);
@@ -87,8 +88,11 @@ const institutionSchema = new mongoose.Schema({
     },
     images: [
       {
-        type: String, // File paths for images
-        required: true,
+        url: {
+          type: String,
+          required: true,
+        }
+        
       },
     ],
   },

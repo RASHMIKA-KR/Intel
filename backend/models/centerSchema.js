@@ -1,7 +1,13 @@
 import mongoose from "mongoose";
+<<<<<<< HEAD
 import bcrypt from "bcryptjs";
 import validator from "validator"; // Import the validator module
 
+=======
+//import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
+import validator from "validator";
+>>>>>>> b59c11d5d3683416baec6a4fe18daa42ee48053d
 const centerSchema = new mongoose.Schema({
   type: {
     type: String,

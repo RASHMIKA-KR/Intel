@@ -1,6 +1,6 @@
-import  Student  from "../models/studentSchema.js";
+import Student from "../models/studentSchema.js";
 import Institution from "../models/institutionSchema.js"; 
-import Center  from "../models/centerSchema.js"; 
+import Center from "../models/centerSchema.js"; 
 import { catchAsyncErrors } from "../middlewares/catchAsyncError.js";
 import ErrorHandler from "../middlewares/error.js";
 import { sendToken } from "../utils/jwtToken.js";
@@ -201,18 +201,17 @@ export const getProfile = catchAsyncErrors(async (req, res, next) => {
 
 // Update student profile
 export const updateProfile = catchAsyncErrors(async (req, res, next) => {
-    const { id } = req.user; // Assuming req.user.id contains the student's ID
-  
-    const updatedStudent = await Student.findByIdAndUpdate(
-      id,
-      req.body,
-      { new: true, runValidators: true, useFindAndModify: false }
-    );
-  
-    res.status(200).json({
-      success: true,
-      student: updatedStudent,
-      message: "Profile Updated!",
-    });
+  const { id } = req.user; // Assuming req.user.id contains the student's ID
+
+  const updatedStudent = await Student.findByIdAndUpdate(
+    id,
+    req.body,
+    { new: true, runValidators: true, useFindAndModify: false }
+  );
+
+  res.status(200).json({
+    success: true,
+    student: updatedStudent,
+    message: "Profile Updated!",
   });
-  
+});

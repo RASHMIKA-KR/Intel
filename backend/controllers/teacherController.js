@@ -52,7 +52,7 @@ export const loginTeacher = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Please provide email and password!", 400));
   }
 
-  const teacher = await Teacher.findOne({ email }).select("+password");
+const teacher = await Teacher.findOne({ email }).select("+password");
 
   if (!teacher) {
     return next(new ErrorHandler("Invalid Email or Password!", 400));

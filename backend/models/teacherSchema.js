@@ -135,3 +135,4 @@ teacherSchema.methods.getJWTToken = function() {
 };
 
 export const Teacher = mongoose.model("Teacher", teacherSchema);
+export default Teacher;
