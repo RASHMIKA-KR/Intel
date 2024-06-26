@@ -1,7 +1,15 @@
 import jwt from 'jsonwebtoken';
-import { Student, Teacher, Institution, Center, Admin } from '../models/index.js';
-import { catchAsyncErrors } from './catchAsyncError.js';
 import ErrorHandler from './error.js';
+<<<<<<< HEAD
+=======
+
+import { Student } from '../models/studentSchema.js';
+import { Teacher } from '../models/teacherSchema.js';
+import { Institution } from '../models/institutionSchema.js';
+import { Center } from '../models/centerSchema.js';
+import { Admin } from '../models/adminSchema.js';
+import { catchAsyncErrors } from './catchAsyncError.js';
+>>>>>>> ad0c202967c33ea2b39872869ed41cbbcbaed4a0
 
 // Middleware to check if user is authenticated
 export const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
@@ -47,7 +55,10 @@ export const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> ad0c202967c33ea2b39872869ed41cbbcbaed4a0
 // Middleware to check if the user is a teacher
 export const isTeacher = (req, res, next) => {
   if (!req.user) {
@@ -86,6 +97,7 @@ export const isCenter = (req, res, next) => {
     return res.status(403).json({ success: false, message: 'Access denied. Only centers are allowed.' });
   }
 };
+
 // Middleware to check if the user is a student
 export const isStudent = (req, res, next) => {
   if (!req.user) {
@@ -99,7 +111,6 @@ export const isStudent = (req, res, next) => {
   }
 };
 
-
 // Middleware to check if the user is admin
 export const isAdmin = (req, res, next) => {
   if (!req.user) {
@@ -109,6 +120,24 @@ export const isAdmin = (req, res, next) => {
   if (req.user.type === 'admin') {
     return next();
   } else {
-    return res.status(403).json({ success: false, message: 'Access denied. Only students are allowed.' });
+    return res.status(403).json({ success: false, message: 'Access denied. Only admins are allowed.' });
   }
+<<<<<<< HEAD
+=======
+};
+
+// Middleware to authorize roles
+export const authorizeRoles = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new ErrorHandler(
+          `Role (${req.user.role}) is not allowed to access this resource`,
+          403
+        )
+      );
+    }
+    next();
+  };
+>>>>>>> ad0c202967c33ea2b39872869ed41cbbcbaed4a0
 };
