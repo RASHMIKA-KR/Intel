@@ -46,15 +46,16 @@ const StudentRegistration = () => {
   toast.error(error.response?.data?.message || 'Registration failed');
 }
 };
-
+const [Email, setsigninEmail] = useState("");
+  const [Password, setsigninPassword] = useState("");
   const handleSignIn = async (event) => {
     event.preventDefault();
     try {
       const response = await axios.post(
         "http://localhost:4000/api/student/login",
         {
-          email,
-          password,
+          Email,
+          Password,
         }
       );
 
@@ -84,8 +85,8 @@ const StudentRegistration = () => {
   };
 
   const clearSignInFields = () => {
-    setEmail("");
-    setPassword("");
+    setsigninEmail("");
+    setsigninPassword("");
   };
 
   // Effect for adding and removing event listeners
@@ -212,13 +213,13 @@ const StudentRegistration = () => {
             type="email"
             placeholder="Email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setsigninEmail(e.target.value)}
           />
           <input
             type="password"
             placeholder="Password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setsigninPassword(e.target.value)}
           />
           <br/>
           <button type="submit">Sign In</button>
