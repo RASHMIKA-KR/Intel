@@ -3,7 +3,28 @@ import Student from '../models/studentSchema.js';
 import {Teacher} from '../models/teacherSchema.js';
 import Institution from '../models/institutionSchema.js';
 import Center from '../models/centerSchema.js';
+import {Admin} from '../models/adminSchema.js'; // MongoDB model for Admin
+import { catchAsyncErrors } from "../middlewares/catchAsyncError.js";
+import ErrorHandler from "../middlewares/error.js";
+import { sendToken } from "../utils/jwtToken.js";
 
+// Admin login function
+export const adminLogin = catchAsyncErrors(async (req, res, next) => {
+  const { username, password} = req.body;
+  if (!username || !password) {
+    return next(new ErrorHandler("Please provide email and password!", 400));
+  }
+
+    // Check if the provided credentials match the admin credentials in the database
+    const admin = await Admin.findOne({ username }).select("+password");
+
+  if (!admin || admin.password !== password) {
+    return next(new ErrorHandler("Invalid credentials!", 400));
+  }
+    sendToken(admin, 200, res, "Admin Logged In Successfully!");
+});
+
+  
 // Add a student
 export const addStudent = async (req, res, next) => {
   try {

@@ -17,12 +17,15 @@ import {
   viewCenterRegistration,
   approveCenterRegistration,
   denyCenterRegistration,
+ adminLogin 
+
 } from '../controllers/adminController.js';
 import { isAuthenticated, isAdmin } from '../middlewares/auth.js';
 
 const router = express.Router();
 
-router.post('/students', isAuthenticated, isAdmin, addStudent);
+router.post('/login', adminLogin);
+router.post('addStudent', isAuthenticated, isAdmin, addStudent);
 router.delete('/students/:id', isAuthenticated, isAdmin, deleteStudent);
 router.post('/teachers', isAuthenticated, isAdmin, addTeacher);
 router.delete('/teachers/:id', isAuthenticated, isAdmin, deleteTeacher);
