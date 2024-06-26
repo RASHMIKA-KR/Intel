@@ -35,7 +35,7 @@ export const registerUser = catchAsyncErrors(async (req, res, next) => {
       }
     let student;
   
-    if (institutionType === 'School') {
+    if (institutionType =='School') {
       student = await Student.create({
         type,
         name,
@@ -49,7 +49,7 @@ export const registerUser = catchAsyncErrors(async (req, res, next) => {
         institutionName,
         standard,
       });
-    } else if (institutionType === 'College') {
+    } else if (institutionType == 'College') {
       student = await Student.create({
         name,
         email,

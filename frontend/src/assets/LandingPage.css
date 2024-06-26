@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap');
+
+.landing-page {
+  font-family: 'Gentium Basic', serif;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f7f8fc; /* very light gray background */
+}
+
+header {
+  background-color: #105db0c8; /* soft blue color */
+  color: black;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px 10px 0 0; /* rounded corners */
+  width: 100%; /* adjust width to fit in the screen */
+  margin-bottom: 1px;
+  margin-top:1px;
+  overflow: hidden; /* add this to prevent overflow */
+}
+
+header h1 {
+  font-size: 43px;
+  font-family: 'Times New Roman', serif;
+  color: black; /* white text */
+  text-shadow:
+    0 0 4px #fff,
+    0 0 10px #fff,
+    0 0 18px #4a90e2,
+    0 0 38px #4a90e2,
+    0 0 73px #4a90e2,
+    0 0 80px #4a90e2,
+    0 0 94px #4a90e2,
+    0 0 140px #4a90e2;
+  animation: flicker 1.5s infinite alternate;
+  white-space: nowrap; /* add this to prevent text wrapping */
+}
+
+@keyframes flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    text-shadow:
+    0 0 4px #fff,
+    0 0 11px #fff,
+    0 0 19px #4a90e2,
+    0 0 40px #4a90e2,
+    0 0 80px #4a90e2,
+    0 0 90px #4a90e2,
+    0 0 100px #4a90e2,
+    0 0 150px #4a90e2;
+  }
+  20%, 24%, 55% {
+    text-shadow: none;
+  }
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+}
+
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap; /* change to wrap to make cards wrap to the next line */
+  justify-content: space-between; /* add space between cards */
+  margin-top: 20px;
+}
+
+.card {
+  flex: 1 0 20%; /* make each card take 20% of the width */
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px;
+  width: 200px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* subtle shadow */
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  background-color: #f0f4f8;
+  cursor: pointer;
+}
+
+.card:active {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.card i {
+  font-size: 48px;
+  margin-bottom: 10px;
+  color: #4a90e2; /* soft blue color */
+}
+
+.card h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #333; /* darker gray */
+  font-family: 'Times New Roman', serif;
+}
+
+/* new color palettefor cards */
+.card:nth-child(1) {
+  background-color: #bbdefb;  /* darker blue */
+}
+
+.card:nth-child(2) {
+  background-color: #e3f2fd; /* lighter blue */
+}
+
+.card:nth-child(3) {
+  background-color: #bbdefb;  /* darker blue */
+}
+
+.card:nth-child(4) {
+  background-color: #e3f2fd; /* lighter blue */
+}
+
+.card:nth-child(5) {
+  background-color: #e3f2fd;  /* darker blue */
+}
+
+/* added glow effect to the education card */
+.card.education {
+  text-shadow:
+    0 0 4px #fff,
+    0 0 10px #fff,
+    0 0 18px #4a90e2,
+    0 0 38px #4a90e2,
+    0 0 73px #4a90e2,
+    0 0 80px #4a90e2,
+    0 0 94px #4a90e2,
+    0 0 140px #4a90e2;
+  animation: flicker 1.5s infinite alternate;
+}
