@@ -1,16 +1,6 @@
 import jwt from 'jsonwebtoken';
 import ErrorHandler from './error.js';
-<<<<<<< HEAD
-=======
-
-import { Student } from '../models/studentSchema.js';
-import { Teacher } from '../models/teacherSchema.js';
-import { Institution } from '../models/institutionSchema.js';
-import { Center } from '../models/centerSchema.js';
-import { Admin } from '../models/adminSchema.js';
 import { catchAsyncErrors } from './catchAsyncError.js';
->>>>>>> ad0c202967c33ea2b39872869ed41cbbcbaed4a0
-
 // Middleware to check if user is authenticated
 export const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
   const { token } = req.cookies;
@@ -55,10 +45,6 @@ export const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-<<<<<<< HEAD
-
-=======
->>>>>>> ad0c202967c33ea2b39872869ed41cbbcbaed4a0
 // Middleware to check if the user is a teacher
 export const isTeacher = (req, res, next) => {
   if (!req.user) {
@@ -122,22 +108,4 @@ export const isAdmin = (req, res, next) => {
   } else {
     return res.status(403).json({ success: false, message: 'Access denied. Only admins are allowed.' });
   }
-<<<<<<< HEAD
-=======
-};
-
-// Middleware to authorize roles
-export const authorizeRoles = (...roles) => {
-  return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      return next(
-        new ErrorHandler(
-          `Role (${req.user.role}) is not allowed to access this resource`,
-          403
-        )
-      );
-    }
-    next();
-  };
->>>>>>> ad0c202967c33ea2b39872869ed41cbbcbaed4a0
 };
