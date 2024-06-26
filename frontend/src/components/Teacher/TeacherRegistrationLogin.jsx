@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import "../../assets/StudentRegistration.css"; // Assuming you have CSS for styling
+import { Navigate } from "react-router-dom";
+import "../../assets/TeacherRegistration.css";
+import { Context } from "../../main";
 
-const StudentRegistration = () => {
+const TeacherRegistration = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,15 +15,15 @@ const StudentRegistration = () => {
   const [phone, setPhone] = useState("");
   const [institutionType, setInstitutionType] = useState("");
   const [institutionName, setInstitutionName] = useState("");
-  const [standard, setStandard] = useState("");
-  const [collegeDepartment, setCollegeDepartment] = useState("");
-  const [yearOfStudy, setYearOfStudy] = useState("");
-  
+  const [subjectOrDepartment, setSubjectOrDepartment] = useState("");
+  const [domain, setDomain] = useState("");
+  const { isAuthorized, setIsAuthorized } = useContext(Context);
+
   const handleSignUp = async (event) => {
     event.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/student/register",
+        "http://localhost:4000/api/teacher/register",
         {
           name,
           email,
@@ -31,41 +33,50 @@ const StudentRegistration = () => {
           age,
           phone,
           institutionType,
-          institutionName,
-          standard,
-          collegeDepartment,
-          yearOfStudy,
+          institutionDetails: {
+            school: {
+              name: institutionType === "School" ? institutionName : undefined,
+              subject: institutionType === "School" ? subjectOrDepartment : undefined,
+            },
+            college: {
+              name: institutionType === "College" ? institutionName : undefined,
+              department: institutionType === "College" ? subjectOrDepartment : undefined,
+            },
+            center: {
+              name: institutionType === "Center" ? institutionName : undefined,
+              domain: institutionType === "Center" ? domain : undefined,
+            },
+          },
         }
       );
 
-  if (response.data.success) {
-    toast.success(response.data.message);
-    clearFormFields();
-  }
-} catch (error) {
-  toast.error(error.response?.data?.message || 'Registration failed');
-}
-};
-const [Email, setsigninEmail] = useState("");
-  const [Password, setsigninPassword] = useState("");
+      if (response.data.success) {
+        toast.success(response.data.message);
+        clearFormFields();
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Registration failed");
+    }
+  };
+
   const handleSignIn = async (event) => {
     event.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/student/login",
+        "http://localhost:4000/api/teacher/login",
         {
-          Email,
-          Password,
+          email,
+          password,
         }
       );
 
       if (response.data.success) {
         toast.success(response.data.message);
         clearSignInFields();
-        // Handle successful login, e.g., store token in localStorage or cookies
+        setIsAuthorized(true);
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Login failed');
+      toast.error(error.response?.data?.message || "Login failed");
     }
   };
 
@@ -79,17 +90,15 @@ const [Email, setsigninEmail] = useState("");
     setPhone("");
     setInstitutionType("");
     setInstitutionName("");
-    setStandard("");
-    setCollegeDepartment("");
-    setYearOfStudy("");
+    setSubjectOrDepartment("");
+    setDomain("");
   };
 
   const clearSignInFields = () => {
-    setsigninEmail("");
-    setsigninPassword("");
+    setEmail("");
+    setPassword("");
   };
 
-  // Effect for adding and removing event listeners
   useEffect(() => {
     const signUpButton = document.getElementById("signUp");
     const signInButton = document.getElementById("signIn");
@@ -112,7 +121,11 @@ const [Email, setsigninEmail] = useState("");
         container.classList.remove("right-panel-active");
       });
     };
-  }, []); // Run once on component mount
+  }, []); // Ensure this runs only once on component mount
+
+  if (isAuthorized) {
+    return <Navigate to={"/teacher/home"} />;
+  }
 
   return (
     <div className="container" id="container">
@@ -138,12 +151,16 @@ const [Email, setsigninEmail] = useState("");
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <input
-            type="text"
-            placeholder="Gender"
+          <select
+            className="select-dropdown"
             value={gender}
             onChange={(e) => setGender(e.target.value)}
-          />
+          >
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
           <input
             type="text"
             placeholder="Address"
@@ -170,8 +187,8 @@ const [Email, setsigninEmail] = useState("");
             <option value="">Select Institution Type</option>
             <option value="School">School</option>
             <option value="College">College</option>
+            <option value="Center">Center</option>
           </select>
-
           <input
             type="text"
             placeholder="Institution Name"
@@ -181,28 +198,28 @@ const [Email, setsigninEmail] = useState("");
           {institutionType === "School" && (
             <input
               type="text"
-              placeholder="Standard"
-              value={standard}
-              onChange={(e) => setStandard(e.target.value)}
+              placeholder="Subject"
+              value={subjectOrDepartment}
+              onChange={(e) => setSubjectOrDepartment(e.target.value)}
             />
           )}
           {institutionType === "College" && (
-            <>
-              <input
-                type="text"
-                placeholder="College Department"
-                value={collegeDepartment}
-                onChange={(e) => setCollegeDepartment(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Year of Study"
-                value={yearOfStudy}
-                onChange={(e) => setYearOfStudy(e.target.value)}
-              />
-            </>
+            <input
+              type="text"
+              placeholder="Department"
+              value={subjectOrDepartment}
+              onChange={(e) => setSubjectOrDepartment(e.target.value)}
+            />
           )}
-          <br/>
+          {institutionType === "Center" && (
+            <input
+              type="text"
+              placeholder="Domain"
+              value={domain}
+              onChange={(e) => setDomain(e.target.value)}
+            />
+          )}
+          <br />
           <button type="submit">Sign Up</button>
         </form>
       </div>
@@ -213,15 +230,15 @@ const [Email, setsigninEmail] = useState("");
             type="email"
             placeholder="Email"
             value={email}
-            onChange={(e) => setsigninEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
             placeholder="Password"
             value={password}
-            onChange={(e) => setsigninPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
-          <br/>
+          <br />
           <button type="submit">Sign In</button>
         </form>
       </div>
@@ -248,4 +265,4 @@ const [Email, setsigninEmail] = useState("");
   );
 };
 
-export default StudentRegistration;
+export default TeacherRegistration;

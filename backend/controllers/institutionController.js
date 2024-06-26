@@ -16,54 +16,48 @@ export const registerInstitution = catchAsyncErrors(async (req, res, next) => {
     address,
     phone,
     institutionType,
-    institutionDetails,
     website,
-    description
+    description,
   } = req.body;
 
   // Check if any required fields are missing
-  const requiredFields = ['name', 'email', 'password', 'address', 'phone', 'institutionType', 'institutionDetails', 'website', 'description'];
+  const requiredFields = ['name', 'email', 'password', 'address', 'phone', 'institutionType', 'website', 'description'];
   const missingFields = requiredFields.filter(field => !req.body[field]);
   if (missingFields.length > 0) {
-      return next(new ErrorHandler(`Missing required fields: ${missingFields.join(', ')}`, 400));
+    return next(new ErrorHandler(`Missing required fields: ${missingFields.join(', ')}`, 400));
   }
+if (!req.files || Object.keys(req.files).length === 0) {
+  return next(new ErrorHandler("Image Required!", 400));
+}
 
-  // Check if there are any images uploaded
-  if (!req.files || Object.keys(req.files).length === 0) {
-      return next(new ErrorHandler("Images Required!", 400));
-  }
+const {image} = req.files;
 
-  // Assuming 'images' is the key for images upload
-  const { images } = req.files;
+// Validate image format
+const allowedFormats = ["image/png", "image/jpeg", "image/webp"];
+if (!allowedFormats.includes(image.mimetype)) {
+  return next(new ErrorHandler(`Invalid image format: ${image.mimetype}. Please upload PNG, JPEG, or WEBP.`, 400));
+}
 
-  // Validate image formats
-  const allowedFormats = ["image/png", "image/jpeg", "image/webp"];
-  const invalidImages = images.filter(img => !allowedFormats.includes(img.mimetype));
+const cloudinaryResponse = await cloudinary.uploader.upload(
+  image.tempFilePath
+);
 
-  if (invalidImages.length > 0) {
-      const invalidFormats = invalidImages.map(img => img.mimetype).join(', ');
-      return next(new ErrorHandler(`Invalid image formats: ${invalidFormats}. Please upload PNG, JPEG, or WEBP.`, 400));
-  }
-
-  // Upload images to Cloudinary and collect responses
-  const uploadedImages = [];
-  for (const img of images) {
-      const cloudinaryResponse = await cloudinary.uploader.upload(img.tempFilePath);
-      if (!cloudinaryResponse || cloudinaryResponse.error) {
-          console.error(
-              "Cloudinary Error:",
-              cloudinaryResponse.error || "Unknown Cloudinary error"
-          );
-          return next(new ErrorHandler("Failed to upload images to Cloudinary", 500));
-      }
-      uploadedImages.push({
-          public_id: cloudinaryResponse.public_id,
-          url: cloudinaryResponse.secure_url,
-      });
-  }
-
-  // Save institution details with uploaded images and status
-  const institution = new Institution({
+if (!cloudinaryResponse || cloudinaryResponse.error) {
+  console.error(
+    "Cloudinary Error:",
+    cloudinaryResponse.error || "Unknown Cloudinary error"
+  );
+  return next(new ErrorHandler("Failed to upload image to Cloudinary", 500));
+}
+const { secure_url: imageUrl, public_id: imagePublicId } = cloudinaryResponse;
+// Check if the user already exists
+const existingUser = await Institution.findOne({ email });
+if (existingUser) {
+    return next(new ErrorHandler("Institution already aplied!", 400));
+}
+  try {
+    // Save institution details with uploaded images and status
+    const institution = new Institution({
       name,
       email,
       password,
@@ -72,17 +66,22 @@ export const registerInstitution = catchAsyncErrors(async (req, res, next) => {
       institutionType,
       website,
       description,
-      institutionDetails: {
-          ...institutionDetails,
-          images: uploadedImages, // Add uploaded images to institutionDetails
+      image: {
+        url: imageUrl,
+        public_id: imagePublicId,
       },
       status: "Pending", // Initial status for approval
-  });
+    });
 
-  await institution.save();
-  sendToken(institution, 201, res, "Institution Registration Pending Approval");
+    await institution.save();
+    res.status(201).json({
+      success: true,
+      message: "Institution Registration Pending Approval",
+    });
+  } catch (error) {
+    console.error( error);
+  }
 });
-
 // Login an institution
 export const loginInstitution = catchAsyncErrors(async (req, res, next) => {
   const { email, password } = req.body;

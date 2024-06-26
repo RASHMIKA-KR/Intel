@@ -13,16 +13,14 @@ export const registerCenter = catchAsyncErrors(async (req, res, next) => {
     name,
     email,
     password,
-    type,
+    centerType,
     address,
     phone,
-    institutionName,
-    institutionDetails,
-    courses,
+    description,
   } = req.body;
 
   // Check if any required fields are missing
-  const requiredFields = ['name', 'email', 'password', 'address', 'type', 'phone', 'institutionName', 'institutionDetails', 'courses'];
+  const requiredFields = ['name', 'email', 'password', 'address', 'centerType', 'phone', 'description'];
   const missingFields = requiredFields.filter(field => !req.body[field]);
   if (missingFields.length > 0) {
     return next(new ErrorHandler(`Missing required fields: ${missingFields.join(', ')}`, 400));
@@ -33,54 +31,54 @@ export const registerCenter = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Images Required!", 400));
   }
 
-  // Assuming 'images' is the key for images upload
-  const { images } = req.files;
-
-  // Validate image formats
+  // Validate image format
   const allowedFormats = ["image/png", "image/jpeg", "image/webp"];
-  const invalidImages = images.filter(img => !allowedFormats.includes(img.mimetype));
-
-  if (invalidImages.length > 0) {
-    const invalidFormats = invalidImages.map(img => img.mimetype).join(', ');
-    return next(new ErrorHandler(`Invalid image formats: ${invalidFormats}. Please upload PNG, JPEG, or WEBP.`, 400));
+  const { image } = req.files;
+  if (!allowedFormats.includes(image.mimetype)) {
+    return next(new ErrorHandler(`Invalid image format: ${image.mimetype}. Please upload PNG, JPEG, or WEBP.`, 400));
   }
 
-  // Upload images to Cloudinary and collect responses
-  const uploadedImages = [];
-  for (const img of images) {
-    const cloudinaryResponse = await cloudinary.uploader.upload(img.tempFilePath);
-    if (!cloudinaryResponse || cloudinaryResponse.error) {
-      console.error(
-        "Cloudinary Error:",
-        cloudinaryResponse.error || "Unknown Cloudinary error"
-      );
-      return next(new ErrorHandler("Failed to upload images to Cloudinary", 500));
-    }
-    uploadedImages.push({
-      public_id: cloudinaryResponse.public_id,
-      url: cloudinaryResponse.secure_url,
+  // Upload image to Cloudinary
+  const cloudinaryResponse = await cloudinary.uploader.upload(image.tempFilePath);
+  if (!cloudinaryResponse || cloudinaryResponse.error) {
+    console.error("Cloudinary Error:", cloudinaryResponse.error || "Unknown Cloudinary error");
+    return next(new ErrorHandler("Failed to upload image to Cloudinary", 500));
+  }
+  const { secure_url: imageUrl, public_id: imagePublicId } = cloudinaryResponse;
+
+  // Check if the user already exists
+  const existingUser = await Center.findOne({ email });
+  if (existingUser) {
+    return next(new ErrorHandler("Center already applied!", 400));
+  }
+
+  try {
+    // Save center details with uploaded images and pending status
+    const center = new Center({
+      name,
+      email,
+      password,
+      centerType,
+      address,
+      phone,
+      description,
+      image: {
+        url: imageUrl,
+        public_id: imagePublicId,
+      },
+      status: "Pending", // Initial status for approval
     });
+
+    await center.save();
+    res.status(201).json({
+      success: true,
+      message: "Center Registration Pending Approval",
+    });
+  } catch (error) {
+    console.error(error);
+    return next(new ErrorHandler(error.message || "Failed to register center", 500));
   }
-
-  // Save center details with uploaded images and pending status
-  const center = new Center({
-    name,
-    email,
-    password,
-    type,
-    address,
-    phone,
-    institutionName,
-    institutionDetails,
-    courses,
-    images: uploadedImages,
-    status: "Pending", // Initial status for approval
-  });
-
-  await center.save();
-  sendToken(center, 201, res, "Center Registration Pending Approval");
-});
-// Login a center
+});// Login a center
 export const loginCenter = catchAsyncErrors(async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -94,7 +92,7 @@ export const loginCenter = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Invalid Email or Password!", 400));
   }
   if (center.status !== "Approved") {
-    return next(new ErrorHandler("Institution is not approved yet!", 403));
+    return next(new ErrorHandler("Center is not approved yet!", 403));
   }
   const isPasswordMatched = await center.comparePassword(password);
 

@@ -14,7 +14,7 @@
 }
 
 header {
-  background-color: #105db0c8; /* soft blue color */
+  background-color: #ED7B84 - #9055F1 ;/* soft blue color */
   color: black;
   padding: 20px;
   text-align: center;
@@ -119,23 +119,29 @@ main {
 
 /* new color palettefor cards */
 .card:nth-child(1) {
-  background-color: #bbdefb;  /* darker blue */
+  background: #3c97bf; /* Updated background gradient */
+    background: -webkit-linear-gradient(to right, #3c97bf, #3c5dbf); /* Updated background gradient for WebKit */
+    background: linear-gradient(to right, #3c97bf, #3c5dbf); /* Updated background gradient for other browsers */
 }
 
 .card:nth-child(2) {
-  background-color: #e3f2fd; /* lighter blue */
+  background-color: #0466B9;/* lighter blue */
 }
 
 .card:nth-child(3) {
-  background-color: #bbdefb;  /* darker blue */
+  background: #3c97bf; /* Updated background gradient */
+    background: -webkit-linear-gradient(to right, #3c97bf, #3c5dbf); /* Updated background gradient for WebKit */
+    background: linear-gradient(to right, #3c97bf, #3c5dbf); /* Updated background gradient for other browsers */
 }
 
 .card:nth-child(4) {
-  background-color: #e3f2fd; /* lighter blue */
+  background-color: #0466B9; /* lighter blue */
 }
 
 .card:nth-child(5) {
-  background-color: #e3f2fd;  /* darker blue */
+  background: #3c97bf; /* Updated background gradient */
+    background: -webkit-linear-gradient(to right, #3c97bf, #3c5dbf); /* Updated background gradient for WebKit */
+    background: linear-gradient(to right, #3c97bf, #3c5dbf); /* Updated background gradient for other browsers */
 }
 
 /* added glow effect to the education card */
