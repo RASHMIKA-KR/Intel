@@ -42,14 +42,14 @@ const StudentRegistration = () => {
         }
       );
 
-      if (response.data.success) {
-        toast.success(response.data.message);
-        clearFormFields();
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Registration failed");
-    }
-  };
+  if (response.data.success) {
+    toast.success(response.data.message);
+    clearFormFields();
+  }
+} catch (error) {
+  toast.error(error.response?.data?.message || 'Registration failed');
+}
+};
 
   const handleSignIn = async (event) => {
     event.preventDefault();

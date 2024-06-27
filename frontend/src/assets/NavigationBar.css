@@ -1,0 +1,51 @@
+/* src/assets/NavigationBar.css */
+
+.navbar {
+    background-color: #444;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .navbar li {
+    float: left;
+  }
+  
+  .navbar li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .navbar li a:hover {
+    background-color: #ff6347; /* Tomato */
+    color: white;
+  }
+  
+  .navbar li a.active {
+    background-color: #4caf50; /* Green */
+    color: white;
+    border-bottom: 3px solid #ffa500; /* Orange */
+  }
+  
+  .navbar li a:active {
+    background-color: #ffa500; /* Orange */
+    color: white;
+  }
+  
+  .navbar li a:focus {
+    outline: none;
+    border-bottom: 3px solid #ff6347; /* Tomato */
+  }
+  

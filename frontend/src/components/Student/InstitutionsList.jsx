@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom"; 
+import NavigationBar from "./NavigationBar";
+import "../../assets/CommonStyles.css";
 const getCookie = (name) => {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -10,6 +12,7 @@ const getCookie = (name) => {
 
 const InstitutionsList = () => {
   const [institutions, setInstitutions] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchInstitutions = async () => {
@@ -46,36 +49,13 @@ const InstitutionsList = () => {
     fetchInstitutions();
   }, []);
 
+  const handleInstitutionClick = (id) => {
+    navigate(`/student/institution/${id}`);
+  };
+
   return (
     <div className="home-container">
-      <nav>
-        <ul>
-          <li>
-            <NavLink to="/student/home" className={({ isActive }) => (isActive? 'active' : '')}>Home</NavLink>
-          </li>
-          <li>
-            <NavLink to="/student/institution" className={({ isActive }) => (isActive? 'active' : '')}>Institution</NavLink>
-          </li>
-          <li>
-            <NavLink to="/student/centre" className={({ isActive }) => (isActive? 'active' : '')}>Centre</NavLink>
-          </li>
-          <li>
-            <NavLink to="/student/admissions" className={({ isActive }) => (isActive? 'active' : '')}>Admissions</NavLink>
-          </li>
-          <li>
-            <NavLink to="/student/materials" className={({ isActive }) => (isActive? 'active' : '')}>Materials</NavLink>
-          </li>
-          <li>
-            <NavLink to="/student/myAdmissions" className={({ isActive }) => (isActive? 'active' : '')}>My Admissions</NavLink>
-          </li>
-          <li>
-            <NavLink to="/student/profile" className={({ isActive }) => (isActive? 'active' : '')}>Profile</NavLink>
-          </li>
-          <li>
-            <NavLink to="/student/logout" className={({ isActive }) => (isActive? 'active' : '')}>Logout</NavLink>
-          </li>
-        </ul>
-      </nav>
+      <NavigationBar />
       <div className="content">
         <h1>Institutions List</h1>
         {institutions.length > 0 ? (

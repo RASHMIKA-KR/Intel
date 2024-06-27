@@ -1,7 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { Context } from "./frontend/src/main"; // Assuming you have defined your context in main.js or main.jsx
+import { Context } from "../../main"; // Assuming you have defined your context in main.js or main.jsx
+import NavigationBar from "./NavigationBar";
+import "../../assets/CommonStyles.css";
 
 const MaterialList = () => {
   const [materials, setMaterials] = useState([]); // State to hold materials array
@@ -32,23 +34,22 @@ const MaterialList = () => {
 
   // JSX rendering
   return (
-    <section className="materials page">
-      <div className="container">
+    <div className="home-container">
+      <NavigationBar />
+      <div className="content">
         <h1>All Available Materials</h1>
-        <div className="banner">
-          {/* Map over materials array and render each material as a card */}
+        <ul>
           {materials.map((material) => (
-            <div className="card" key={material._id}>
-              <p>Title: {material.name}</p> {/* Display material name */}
-              <p>Material Type: {material.materialType}</p> {/* Display material type */}
-              <p>Uploaded By: {material.uploadedBy}</p> {/* Display uploader */}
-              {/* Link to material details page */}
+            <li key={material._id}>
+              <p>Title: {material.name}</p>
+              <p>Material Type: {material.materialType}</p>
+              <p>Uploaded By: {material.uploadedBy}</p>
               <Link to={`/material/${material._id}`}>Material Details</Link>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
-    </section>
+    </div>
   );
 };
 
