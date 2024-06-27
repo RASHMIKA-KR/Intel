@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-=======
-import React from "react";
->>>>>>> 4837aa0272e8b54b7e26e8b0ff85af56dd2c32ab
-import { NavLink } from "react-router-dom";
-import "../../assets/NavigationBar.css";
+import { NavLink } from 'react-router-dom';
+import "../../assets/Stu-Navbar.css"; // Import your CSS file
 
 const NavigationBar = () => {
   return (
@@ -12,7 +8,8 @@ const NavigationBar = () => {
         <li>
           <NavLink 
             to="/student/home" 
-            className={({ isActive }) => (isActive ? "active" : "")}
+            className="nav-link"
+            activeClassName="active"
           >
             Home
           </NavLink>
@@ -20,7 +17,8 @@ const NavigationBar = () => {
         <li>
           <NavLink 
             to="/student/institution" 
-            className={({ isActive }) => (isActive ? "active" : "")}
+            className="nav-link"
+            activeClassName="active"
           >
             Institution
           </NavLink>
@@ -28,7 +26,8 @@ const NavigationBar = () => {
         <li>
           <NavLink 
             to="/student/centre" 
-            className={({ isActive }) => (isActive ? "active" : "")}
+            className="nav-link"
+            activeClassName="active"
           >
             Center
           </NavLink>
@@ -36,7 +35,8 @@ const NavigationBar = () => {
         <li>
           <NavLink 
             to="/student/admissions" 
-            className={({ isActive }) => (isActive ? "active" : "")}
+            className="nav-link"
+            activeClassName="active"
           >
             Admissions
           </NavLink>
@@ -44,7 +44,8 @@ const NavigationBar = () => {
         <li>
           <NavLink 
             to="/student/materials" 
-            className={({ isActive }) => (isActive ? "active" : "")}
+            className="nav-link"
+            activeClassName="active"
           >
             Materials
           </NavLink>
@@ -52,7 +53,8 @@ const NavigationBar = () => {
         <li>
           <NavLink 
             to="/student/myAdmissions" 
-            className={({ isActive }) => (isActive ? "active" : "")}
+            className="nav-link"
+            activeClassName="active"
           >
             My Admissions
           </NavLink>
@@ -60,7 +62,8 @@ const NavigationBar = () => {
         <li>
           <NavLink 
             to="/student/profile" 
-            className={({ isActive }) => (isActive ? "active" : "")}
+            className="nav-link"
+            activeClassName="active"
           >
             Profile
           </NavLink>
@@ -68,7 +71,8 @@ const NavigationBar = () => {
         <li>
           <NavLink 
             to="/student/logout" 
-            className={({ isActive }) => (isActive ? "active" : "")}
+            className="nav-link"
+            activeClassName="active"
           >
             Logout
           </NavLink>

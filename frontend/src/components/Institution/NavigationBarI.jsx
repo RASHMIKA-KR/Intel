@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import "../../assets/NavigationBar.css"; // Update the path accordingly
 
 const NavigationBar = () => {
   return (

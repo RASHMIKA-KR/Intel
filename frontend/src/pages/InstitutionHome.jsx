@@ -1,6 +1,5 @@
-import React from "react";
-import NavigationBar from "../components/Institution/NavigationBar"; // Update the path accordingly
-import "../assets/StudentHome.css"; // Update the path accordingly
+import NavigationBar from "../components/Institution/NavigationBarI"; // Update the path accordingly
+import "../assets/Home.css"; // Update the path accordingly
 
 const InstitutionHome = () => {
   return (

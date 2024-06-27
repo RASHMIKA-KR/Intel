@@ -1,7 +1,6 @@
 // src/components/Center/NavigationBar.jsx
 import React from "react";
 import { NavLink } from "react-router-dom";
-import "../../assets/NavigationBar.css"; // Assuming common navigation bar styles are here
 
 const NavigationBar = () => {
   return (

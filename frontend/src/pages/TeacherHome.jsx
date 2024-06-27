@@ -1,8 +1,7 @@
 // src/pages/TeacherHome.jsx
 
 import React from "react";
-import NavigationBar from "../components/Teacher/NavigationBar";
-import "../assets/StudentHome.css";
+import "../assets/Home.css";
 
 const TeacherHome = () => {
   return (

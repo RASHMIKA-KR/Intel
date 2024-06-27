@@ -1,7 +1,5 @@
-// src/pages/StudentHome.jsx
+import "../assets/Home.css";
 import NavigationBar from "../components/Student/NavigationBar";
-import "../assets/NavigationBar.css";
-
 const StudentHome = () => {
   return (
     <div className="home-container">
@@ -28,5 +26,6 @@ const StudentHome = () => {
     </div>
   );
 };
+
 
 export default StudentHome;

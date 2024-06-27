@@ -1,7 +1,5 @@
 // src/pages/CenterHome.jsx
-import React from "react";
-import NavigationBar from "../components/Center/NavigationBar";
-import "../assets/StudentHome.css"; // Assuming common styles are here
+import "../assets/Home.css"; // Assuming common styles are here
 
 const CenterHome = () => {
   return (

@@ -15,21 +15,17 @@ import CentersList from "./components/Student/CentersList";
 import CenterDetails from "./components/Student/CenterDetails";
 import MaterialList from './components/Student/MaterialList';
 import AdminLogin from './components/Admin/AdminLogin';
-<<<<<<< HEAD
 import ApprovalsPage from './components/Admin/ApprovalsPage';
 import InstitutionsPage from './components/Admin/InstitutionsPage';
 import CentersPage from './components/Admin/CentersPage';
-import InstitutionDetail from './components/Admin/InstitutionDetail';
 import CenterDetail from './components/Admin/CenterDetail';
 
-=======
 //Institutions
 import InstitutionHome from "./pages/InstitutionHome";
 //Teacher
 import TeacherHome from "./pages/TeacherHome";
 //Center
 import CenterHome from "./pages/CenterHome";
->>>>>>> 4837aa0272e8b54b7e26e8b0ff85af56dd2c32ab
 function App() {
   return (
     <BrowserRouter>
@@ -49,14 +45,12 @@ function App() {
         <Route path="/student/centre" element={<CentersList />} />
         <Route path="/student/center/:id" element={<CenterDetails />} />
         <Route path="/student/materials" element={<MaterialList/>}/>
-<<<<<<< HEAD
         <Route path="/admin/approvals" element={<ApprovalsPage />} />
         <Route path="/admin/institutions" element={<InstitutionsPage />} />
         <Route path="/admin/centers" element={<CentersPage />} />
-        <Route path="/admin/institutions/:id" element={<InstitutionDetail />} />
+        <Route path="/admin/institutions/:id" element={<InstitutionDetails />} />
         <Route path="/admin/centers/:id" element={<CenterDetail />} />
 
-=======
 
         <Route path="/institution/home" element={<InstitutionHome />} />
 
@@ -64,7 +58,6 @@ function App() {
         <Route path="/teacher/home" element={<TeacherHome/>} />
 
         <Route path="/center/home" element={<CenterHome />} />
->>>>>>> 4837aa0272e8b54b7e26e8b0ff85af56dd2c32ab
       </Routes>
     </BrowserRouter>
   );

@@ -27,18 +27,12 @@ router.get('/materials', authenticateStudent,   getStudentMaterials);
 router.get('/materials/:id', authenticateStudent,   getStudentMaterialById);
 
 router.get('/institutions',authenticateStudent,getInstitutions);
-router.get('/institutions/:id', authenticateStudent, getInstitutionById);
+router.get('/institutions/:id', getInstitutionById);
 router.post('/institutions/:id/admissions/:id/apply',authenticateStudent,  applyToInstitutionAdmission);
 
-<<<<<<< HEAD
 router.get('/centers', authenticateStudent,   getCenters);
 router.get('/centers/:id', authenticateStudent,   getCenterById);
 router.post('/centers/:id/admissions/:id/apply', authenticateStudent,  applyToCenterAdmission);
-=======
-router.get('/centers', getCenters);
-router.get('/centers/:id', isAuthenticated,   getCenterById);
-router.post('/centers/:id/admissions/:id/apply', isAuthenticated,  applyToCenterAdmission);
->>>>>>> 4837aa0272e8b54b7e26e8b0ff85af56dd2c32ab
 
 router.get('/postedadmissions', authenticateStudent,   getAllPostedAdmissions);
 router.get('/postedadmissions/:id', authenticateStudent,  getPostedAdmissionById);

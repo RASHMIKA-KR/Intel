@@ -1,20 +1,20 @@
-.home-container {
-  width: 100vw; /* full viewport width */
-  padding: 20px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
+.home-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+}
 
 nav {
-  position: sticky;
-  top: 0;
   background-color: #333;
   color: #fff;
   padding: 1em;
   text-align: center;
-  z-index: 1000;
 }
 
 nav ul {
@@ -38,16 +38,13 @@ nav a:hover {
   color: #ccc;
 }
 
-.content {
-  padding: 20px;
-}
-
-.content h1 {
-  margin-top: 0;
-}
-
-.active {
-  font-weight: bold; 
+nav .active {
+  font-weight: bold;
   color: blue;
 }
 
+.content {
+  flex: 1; /* Take up remaining space */
+  padding: 20px;
+  overflow-y: auto;
+}

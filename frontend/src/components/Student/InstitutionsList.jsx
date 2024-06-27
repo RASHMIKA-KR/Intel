@@ -34,16 +34,16 @@ const InstitutionsList = () => {
   };
 
   return (
-    <div className="home-container">
+    <div className="card-home-container">
       <NavigationBar />
-      <div className="content">
+      <div className="card-content">
         <h1>Institutions List</h1>
         {institutions.length > 0 ? (
-          <div className="card-container">
+          <div className="single-card-container">
             {institutions.map((institution) => (
               <div
                 key={institution._id}
-                className="card"
+                className="single-card"
                 onClick={() => handleInstitutionClick(institution._id)}
               >
                 <h2>{institution.name}</h2>

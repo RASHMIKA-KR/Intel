@@ -1,0 +1,41 @@
+/* Updated styling for nav with a different background color */
+.navbar {
+  position: sticky;
+  top: 0;
+  left: 0; /* Ensures it spans full width */
+  width: 100%; /* Spans full width */
+  background-color: #333; /* Dark background color */
+  color: #fff; /* White text color */
+  padding: 1em;
+  text-align: center;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.navbar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-end; /* Align items from left to right */
+}
+
+.navbar li {
+  margin-right: 20px;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px; /* Font size for navigation links */
+  transition: color 0.2s ease; /* Smooth color transition */
+}
+
+.nav-link:hover {
+  color: #ccc; /* Lighter color on hover */
+}
+
+.active {
+  font-weight: bold;
+  color: #3c97bf; /* Light blue color for active links */
+}

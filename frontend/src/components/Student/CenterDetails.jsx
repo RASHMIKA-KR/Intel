@@ -1,9 +1,8 @@
 // src/components/Student/CenterDetails.jsx
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import NavigationBar from "./NavigationBar";
-import "../../assets/CommonStyles.css";
 
 const CenterDetails = () => {
   const { id } = useParams();
