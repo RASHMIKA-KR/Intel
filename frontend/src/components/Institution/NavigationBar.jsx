@@ -4,28 +4,63 @@ import "../../assets/NavigationBar.css"; // Update the path accordingly
 
 const NavigationBar = () => {
   return (
-    <nav className="nav-container">
+    <nav className="navbar">
       <ul className="nav-list">
         <li className="nav-item">
-          <NavLink to="/institution/home" activeClassName="active">Home</NavLink>
+          <NavLink 
+            to="/institution/home" 
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Home
+          </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to="/institution/admissions" activeClassName="active">Admissions</NavLink>
+          <NavLink 
+            to="/institution/admissions" 
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Admissions
+          </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to="/institution/vacancy" activeClassName="active">Vacancy</NavLink>
+          <NavLink 
+            to="/institution/vacancy" 
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Vacancy
+          </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to="/institution/materials" activeClassName="active">Materials</NavLink>
+          <NavLink 
+            to="/institution/materials" 
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Materials
+          </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to="/institution/inquiries" activeClassName="active">Inquiries</NavLink>
+          <NavLink 
+            to="/institution/inquiries" 
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Enquiries
+          </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to="/institution/profile" activeClassName="active">Profile</NavLink>
+          <NavLink 
+            to="/institution/profile" 
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Profile
+          </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to="/institution/logout" activeClassName="active">Logout</NavLink>
+          <NavLink 
+            to="/institution/logout" 
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Logout
+          </NavLink>
         </li>
       </ul>
     </nav>

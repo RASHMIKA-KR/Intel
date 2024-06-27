@@ -30,7 +30,7 @@ router.get('/institutions',getInstitutions);
 router.get('/institutions/:id', isAuthenticated, getInstitutionById);
 router.post('/institutions/:id/admissions/:id/apply',isAuthenticated,  applyToInstitutionAdmission);
 
-router.get('/centers', isAuthenticated,   getCenters);
+router.get('/centers', getCenters);
 router.get('/centers/:id', isAuthenticated,   getCenterById);
 router.post('/centers/:id/admissions/:id/apply', isAuthenticated,  applyToCenterAdmission);
 

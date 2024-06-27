@@ -17,6 +17,10 @@ import MaterialList from './components/Student/MaterialList';
 import AdminLogin from './components/Admin/AdminLogin';
 //Institutions
 import InstitutionHome from "./pages/InstitutionHome";
+//Teacher
+import TeacherHome from "./pages/TeacherHome";
+//Center
+import CenterHome from "./pages/CenterHome";
 function App() {
   return (
     <BrowserRouter>
@@ -38,6 +42,11 @@ function App() {
         <Route path="/student/materials" element={<MaterialList/>}/>
 
         <Route path="/institution/home" element={<InstitutionHome />} />
+
+
+        <Route path="/teacher/home" element={<TeacherHome/>} />
+
+        <Route path="/center/home" element={<CenterHome />} />
       </Routes>
     </BrowserRouter>
   );

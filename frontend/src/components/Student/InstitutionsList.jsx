@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { NavLink } from "react-router-dom";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import NavigationBar from "./NavigationBar";
-import "../../assets/CommonStyles.css";
+import "../../assets/CardStudent.css";
+
 const getCookie = (name) => {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -20,7 +20,6 @@ const InstitutionsList = () => {
         const token = getCookie("authToken");
         if (!token) {
           console.log("No token found. You are not authorized to access this page.");
-          // Redirect to login page
           window.location.href = "/home";
           return;
         }
@@ -30,17 +29,13 @@ const InstitutionsList = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        // Filter institutions with status 'Approved' before setting state
         const approvedInstitutions = response.data.institutions.filter(institution => institution.status === 'Approved');
         setInstitutions(approvedInstitutions);
       } catch (error) {
         console.error("Error fetching institutions:", error);
-        // Display an error message or redirect to an error page
         if (error.response && error.response.status === 401) {
-          // Token is invalid or expired, redirect to login page
           window.location.href = "/home";
         } else {
-          // Display an error message
           alert("Error fetching institutions: " + error.message);
         }
       }
@@ -59,11 +54,17 @@ const InstitutionsList = () => {
       <div className="content">
         <h1>Institutions List</h1>
         {institutions.length > 0 ? (
-          <ul>
+          <div className="card-container">
             {institutions.map((institution) => (
-              <li key={institution._id}>{institution.name}</li>
+              <div
+                key={institution._id}
+                className="card"
+                onClick={() => handleInstitutionClick(institution._id)}
+              >
+                <h2>{institution.name}</h2>
+              </div>
             ))}
-          </ul>
+          </div>
         ) : (
           <p>No approved institutions found.</p>
         )}
