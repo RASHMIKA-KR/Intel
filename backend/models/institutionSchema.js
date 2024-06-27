@@ -12,7 +12,7 @@ const institutionSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['Pending', 'Approved','Denied'],
+    enum: ['Pending', 'Approved', 'Denied'],
     default: 'Pending',
   },
   name: {
@@ -66,47 +66,21 @@ const institutionSchema = new mongoose.Schema({
     type: String,
     maxlength: [500, "Description cannot exceed 500 characters!"],
   },
-  institutionDetails: {
-    name: {
-      type: String,
-      required: function() {
-        return this.institutionType === "School" || this.institutionType === "College";
-      },
+  image: {
+    public_id: {
+      type: String, 
+      required: true,
     },
-    contactNumber: {
-      type: String,
-      required: function() {
-        return this.institutionType === "School" || this.institutionType === "College";
-      },
-      
-      validate: {
-        validator: function(value) {
-          return /^[6-9]\d{9}$/.test(value);
-        },
-        message: "Contact number must be exactly 10 digits long and contain only digits!",
-      },
+    url: {
+      type: String, 
+      required: true,
     },
-    images: [
-      {
-        url: {
-          type: String,
-          required: true,
-        }
-        
-      },
-    ],
   },
-  
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
-
-// Custom validator to ensure at least 5 images are uploaded
-institutionSchema.path('institutionDetails.images').validate(function(value) {
-  return value.length >= 5;
-}, 'An institution must have at least 5 images.');
 
 // Pre-save hook to hash the password before saving
 institutionSchema.pre("save", async function(next) {

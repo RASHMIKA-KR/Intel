@@ -32,10 +32,10 @@ const centerSchema = new mongoose.Schema({
     maxLength: [32, "Password cannot exceed 32 characters!"],
     select: false,
   },
-  type: {
+  centerType: {
     type: String,
     required: [true, "Please select the Center Type!"],
-    enum: ["Arts", "Music", "Sports", "Cultural"],
+    enum: ["Education","Arts", "Music", "Sports", "Cultural","Other"],
   },
   address: {
     type: String,
@@ -52,32 +52,20 @@ const centerSchema = new mongoose.Schema({
       message: "Phone number must be exactly 10 digits long and contain only digits!",
     },
   },
-  courses: [{
-    name: {
-      type: String,
-      required: [true, "Please enter the Course Name!"],
+  description: {
+    type: String,
+    maxlength: [500, "Description cannot exceed 500 characters!"],
+  },
+  image: {
+    public_id: {
+      type: String, 
+      required: true,
     },
-    description: {
-      type: String,
+    url: {
+      type: String, 
+      required: true,
     },
-    duration: {
-      type: String,
-      required: [true, "Please enter the Course Duration!"],
-    },
-  }],
-
-  images: [
-    {
-      public_id: {
-        type: String,
-        required: true,
-      },
-      url: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
+  },
   createdAt: {
     type: Date,
     default: Date.now,
