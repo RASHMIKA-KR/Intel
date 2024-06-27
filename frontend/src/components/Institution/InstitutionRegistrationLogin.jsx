@@ -4,6 +4,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { Navigate } from "react-router-dom";
 import { Context } from "../../main";
 import "../../assets/RegistrationLogin.css";
+import Cookies from "js-cookie"; 
 
 const InstitutionRegistrationLogin = () => {
   const [name, setName] = useState("");
@@ -53,6 +54,7 @@ const InstitutionRegistrationLogin = () => {
 
   const handleSignUp = async (event) => {
     event.preventDefault();
+    
     try {
       const formData = new FormData();
       formData.append("type", "institution");
@@ -72,10 +74,12 @@ const InstitutionRegistrationLogin = () => {
         toast.error("Please select an image file.");
         return;
       }
-      // Log FormData entries
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
+  
+      // Log FormData entries for verification
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+      }
+  
       const response = await axios.post(
         "http://localhost:4000/api/institution/register",
         formData,
@@ -88,7 +92,7 @@ const InstitutionRegistrationLogin = () => {
   
       if (response.data.success) {
         toast.success(response.data.message);
-        clearFormFields();
+        clearFormFields(); // Assuming you have a function to clear form fields
       }
     } catch (error) {
       console.error("Registration error:", error); // Log the error for debugging
@@ -96,8 +100,10 @@ const InstitutionRegistrationLogin = () => {
     }
   };
   
+  
   const handleSignIn = async (event) => {
     event.preventDefault();
+    
     try {
       const response = await axios.post(
         "http://localhost:4000/api/institution/login",
@@ -106,20 +112,32 @@ const InstitutionRegistrationLogin = () => {
           password,
         }
       );
-
+  
       if (response.data.success) {
-        localStorage.setItem("token", response.data.token);
-        setIsAuthorized(true);
-        return <Navigate to="/institution/home" />;
+        const token = response.data.token;
+        if (token) {
+          Cookies.set('authToken', token, { expires: 1 }); // Set the token as a cookie
+          toast.success(response.data.message);
+          clearSignInFields(); // Assuming you have a function to clear sign-in fields
+          setIsAuthorized(true);
+        } else {
+          toast.error("No token received. Please try again.");
+        }
       } else {
-        toast.error("Invalid credentials. Please try again.");
+        toast.error("Sign-in failed. Please check your credentials.");
       }
     } catch (error) {
+      console.error("Sign-in error:", error); // Log the error for debugging
       toast.error(
         error.response?.data?.message || "Sign-in failed. Please try again."
       );
     }
   };
+  const clearSignInFields = () => {
+    setEmail("");
+    setPassword("");
+  };
+  
 
   const clearFormFields = () => {
     setName("");
