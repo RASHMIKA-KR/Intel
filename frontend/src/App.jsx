@@ -7,7 +7,7 @@ import CenterRegistrationLogin from './components/Center/CenterRegistrationLogin
 import StudentHome from './pages/StudentHome';
 import InstitutionsList from './components/Student/InstitutionsList';
 import AdminLogin from './components/Admin/AdminLogin';
-
+import AdminHome from './pages/AdminHome';
 function App() {
   return (
     <BrowserRouter>
@@ -18,7 +18,8 @@ function App() {
         <Route path="/institution/register" element={<InstitutionRegistrationLogin />} />  
         <Route path="/center/register" element={<CenterRegistrationLogin />} />  
         <Route path="/admin/login" element={<AdminLogin />} /> 
-        <Route path="/student/home" element={<StudentHome />} /> 
+        <Route path="/student/home" element={<StudentHome />} />
+        <Route path="/admin/home" element={<AdminHome/>}/> 
         <Route path="/student/institution" element={<InstitutionsList />} /> 
       </Routes>
     </BrowserRouter>

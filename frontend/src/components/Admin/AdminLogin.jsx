@@ -4,6 +4,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { Navigate } from 'react-router-dom';
 import { Context } from "../../main";
 import "../../assets/AdminLogin.css";
+import Cookies from 'js-cookie';
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
@@ -18,14 +19,18 @@ const AdminLogin = () => {
         { username, password }
       );
       if (response.data.success) {
-        toast.success(response.data.message);
-        clearLoginFields();
-        setIsAuthorized(true);
+        const token = response.data.token;
+        if (token) {
+          Cookies.set('authToken', token, { expires: 1 }); // Set the token as a cookie
+          toast.success(response.data.message);
+          clearLoginFields();
+          setIsAuthorized(true);
+        } else {
+          toast.error("No token received. Please try again.");
+        }
       }
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || 'Admin login failed. Please try again.'
-      );
+      toast.error(error.response?.data?.message || "Login failed");
     }
   };
 
@@ -35,7 +40,7 @@ const AdminLogin = () => {
   };
 
   if (isAuthorized) {
-    return <Navigate to="/admin/dashboard" />;
+    return <Navigate to="/admin/home" />;
   }
 
   return (
