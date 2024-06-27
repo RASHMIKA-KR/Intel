@@ -36,7 +36,7 @@ const InstitutionsList = () => {
   return (
     <div className="card-home-container">
       <NavigationBar />
-      <div className="card-content">
+      <div className="content">
         <h1>Institutions List</h1>
         {institutions.length > 0 ? (
           <div className="single-card-container">
