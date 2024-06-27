@@ -2,7 +2,7 @@
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import NavigationBar from "./NavigationBar";
+import NavigationBar from "./NavigationBarS";
 import "../../assets/InstitutionDetails.css";
 import { Context } from "../../main";
 

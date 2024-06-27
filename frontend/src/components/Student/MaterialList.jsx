@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../../main"; // Assuming you have defined your context in main.js or main.jsx
-import NavigationBar from "./NavigationBar";
+import NavigationBar from "./NavigationBarS";
 
 const MaterialList = () => {
   const [materials, setMaterials] = useState([]); // State to hold materials array

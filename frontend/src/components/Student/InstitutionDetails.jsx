@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import NavigationBar from "./NavigationBar";
+import NavigationBar from "./NavigationBarS";
 import { Context } from "../../main";
 import "../../assets/InstitutionDetails.css";
 const InstitutionDetails = () => {

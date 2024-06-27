@@ -1,5 +1,5 @@
 import "../assets/Home.css";
-import NavigationBar from "../components/Student/NavigationBar";
+import NavigationBar from "../components/Student/NavigationBarS";
 const StudentHome = () => {
   return (
     <div className="home-container">

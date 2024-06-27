@@ -1,8 +1,5 @@
-// src/pages/TeacherHome.jsx
-
-import React from "react";
 import "../assets/Home.css";
-
+import NavigationBar from "../components/Teacher/NavigationBarT";
 const TeacherHome = () => {
   return (
     <div className="home-container">
