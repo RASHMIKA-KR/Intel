@@ -1,54 +1,59 @@
-// src/components/Students/InstitutionDetails.jsx
 
-import React, { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import NavigationBar from "./NavigationBar";
-import "../../assets/CommonStyles.css";
+import "../../assets/InstitutionDetails.css";
+
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+};
 
 const InstitutionDetails = () => {
   const { id } = useParams();
   const [institution, setInstitution] = useState(null);
-  const [admissions, setAdmissions] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchInstitution = async () => {
+    const fetchInstitutionDetails = async () => {
       try {
-        const token = localStorage.getItem('authToken');
+        const token = getCookie("authToken");
         if (!token) {
-          throw new Error("No token found");
+          console.log("No token found. You are not authorized to access this page.");
+          window.location.href = "/home";
+          return;
         }
-        const response = await axios.get(`http://localhost:4000/api/student/institutions/${id}`, {
+
+        const response = await axios.get(`http://localhost:4000/api/student/institution/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         setInstitution(response.data.institution);
       } catch (error) {
-        console.error("Error fetching institution:", error);
-        // Handle error state (e.g., redirect to login if unauthorized)
+        console.error("Error fetching institution details:", error);
+        if (error.response && error.response.status === 401) {
+          window.location.href = "/home";
+        } else {
+          alert("Error fetching institution details: " + error.message);
+        }
       }
     };
 
-    const fetchAdmissions = async () => {
-      try {
-        const response = await axios.get(`http://localhost:4000/api/admissions/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setAdmissions(response.data.data);
-      } catch (error) {
-        console.error("Error fetching admissions:", error);
-      }
-    };
-
-    fetchInstitution();
-    fetchAdmissions();
+    fetchInstitutionDetails();
   }, [id]);
 
   if (!institution) {
-    return <p>Loading...</p>;
+    return (
+      <div className="home-container">
+        <NavigationBar />
+        <div className="content">
+          <h1>Loading...</h1>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -56,21 +61,14 @@ const InstitutionDetails = () => {
       <NavigationBar />
       <div className="content">
         <h1>{institution.name}</h1>
-        <p>{institution.description}</p>
-        <h2>Admissions</h2>
-        {admissions.length > 0 ? (
-          admissions.map((admission) => (
-            <div key={admission._id} className="admission-card">
-              <h3>{admission.courseName}</h3>
-              <p>{admission.description}</p>
-              <p>Eligibility: {admission.eligibilityCriteria}</p>
-              <p>Application Deadline: {new Date(admission.applicationDeadline).toLocaleDateString()}</p>
-              <Link to={`/apply/${admission._id}`} className="apply-button">Apply</Link>
-            </div>
-          ))
-        ) : (
-          <p>No admissions available.</p>
-        )}
+        <p><strong>Email:</strong> {institution.email}</p>
+        <p><strong>Phone:</strong> {institution.phone}</p>
+        <p><strong>Address:</strong> {institution.address}</p>
+        <p><strong>Website:</strong> <a href={institution.website} target="_blank" rel="noopener noreferrer">{institution.website}</a></p>
+        <p><strong>Type:</strong> {institution.institutionType}</p>
+        <p><strong>Description:</strong> {institution.description}</p>
+        <img src={institution.image.url} alt={institution.name} style={{ maxWidth: "100%" }} />
+        <button onClick={() => navigate(-1)}>Back</button>
       </div>
     </div>
   );

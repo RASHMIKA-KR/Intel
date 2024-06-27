@@ -129,14 +129,18 @@ export const getInstitutions = catchAsyncErrors(async (req, res, next) => {
 
 // Get institution by ID
 export const getInstitutionById = catchAsyncErrors(async (req, res, next) => {
-  const institution = await Institution.findById(req.params.id);
-  if (!institution) {
-    return next(new ErrorHandler("Institution not found!", 404));
+  try {
+    const institution = await Institution.findById(req.params.id);
+    if (!institution) {
+      return next(new ErrorHandler("Institution not found!", 404));
+    }
+    res.status(200).json({
+      success: true,
+      institution,
+    });
+  } catch (error) {
+    return next(new ErrorHandler("An error occurred while fetching the institution!", 500));
   }
-  res.status(200).json({
-    success: true,
-    institution,
-  });
 });
 
 // Get centers

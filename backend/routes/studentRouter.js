@@ -19,6 +19,7 @@ import {
   getmyAdmissionEnquiries
 } from '../controllers/studentController.js';
 
+
 import { isAuthenticated  } from '../middlewares/auth.js';
 
 const router = express.Router();
@@ -27,7 +28,7 @@ router.get('/materials', isAuthenticated,   getStudentMaterials);
 router.get('/materials/:id', isAuthenticated,   getStudentMaterialById);
 
 router.get('/institutions',getInstitutions);
-router.get('/institutions/:id', isAuthenticated, getInstitutionById);
+router.get('/institutions/:id',  getInstitutionById);
 router.post('/institutions/:id/admissions/:id/apply',isAuthenticated,  applyToInstitutionAdmission);
 
 router.get('/centers', getCenters);
