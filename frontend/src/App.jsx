@@ -4,7 +4,6 @@ import StudentRegistrationLogin from './components/Student/StudentRegistrationLo
 import TeacherRegistrationLogin from './components/Teacher/TeacherRegistrationLogin';
 import InstitutionRegistrationLogin from './components/Institution/InstitutionRegistrationLogin';
 import CenterRegistrationLogin from './components/Center/CenterRegistrationLogin';
-import AdminLogin from './components/Admin/AdminLogin';
 
 function App() {
   return (
@@ -15,7 +14,6 @@ function App() {
         <Route path="/teacher/register" element={<TeacherRegistrationLogin />} />  
         <Route path="/institution/register" element={<InstitutionRegistrationLogin />} />  
         <Route path="/center/register" element={<CenterRegistrationLogin />} />  
-        <Route path="/admin/login" element={<AdminLogin />} /> 
       </Routes>
     </BrowserRouter>
   );
