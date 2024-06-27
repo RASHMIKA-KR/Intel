@@ -19,30 +19,30 @@ import {
   getmyAdmissionEnquiries
 } from '../controllers/studentController.js';
 
-import { isAuthenticated  } from '../middlewares/auth.js';
+import { authenticateStudent  } from '../middlewares/auth.js';
 
 const router = express.Router();
 
-router.get('/materials', isAuthenticated,   getStudentMaterials);
-router.get('/materials/:id', isAuthenticated,   getStudentMaterialById);
+router.get('/materials', authenticateStudent,   getStudentMaterials);
+router.get('/materials/:id', authenticateStudent,   getStudentMaterialById);
 
-router.get('/institutions',getInstitutions);
-router.get('/institutions/:id', isAuthenticated, getInstitutionById);
-router.post('/institutions/:id/admissions/:id/apply',isAuthenticated,  applyToInstitutionAdmission);
+router.get('/institutions',authenticateStudent,getInstitutions);
+router.get('/institutions/:id', authenticateStudent, getInstitutionById);
+router.post('/institutions/:id/admissions/:id/apply',authenticateStudent,  applyToInstitutionAdmission);
 
-router.get('/centers', isAuthenticated,   getCenters);
-router.get('/centers/:id', isAuthenticated,   getCenterById);
-router.post('/centers/:id/admissions/:id/apply', isAuthenticated,  applyToCenterAdmission);
+router.get('/centers', authenticateStudent,   getCenters);
+router.get('/centers/:id', authenticateStudent,   getCenterById);
+router.post('/centers/:id/admissions/:id/apply', authenticateStudent,  applyToCenterAdmission);
 
-router.get('/postedadmissions', isAuthenticated,   getAllPostedAdmissions);
-router.get('/postedadmissions/:id', isAuthenticated,  getPostedAdmissionById);
-router.post('/postedadmissions/:id/apply',isAuthenticated,  applyToAnyAdmission);
-router.get('/myenquiries',isAuthenticated,  getmyAdmissionEnquiries);
+router.get('/postedadmissions', authenticateStudent,   getAllPostedAdmissions);
+router.get('/postedadmissions/:id', authenticateStudent,  getPostedAdmissionById);
+router.post('/postedadmissions/:id/apply',authenticateStudent,  applyToAnyAdmission);
+router.get('/myenquiries',authenticateStudent,  getmyAdmissionEnquiries);
 
-router.get('/profile', isAuthenticated,   getProfile);
-router.put('/updateProfile', isAuthenticated,  updateProfile);
+router.get('/profile', authenticateStudent,   getProfile);
+router.put('/updateProfile', authenticateStudent,  updateProfile);
 router.post('/register', registerUser);
 router.post('/login', loginUser);
-router.post('/logout',isAuthenticated, logoutUser);
+router.post('/logout',authenticateStudent, logoutUser);
 
 export default router;

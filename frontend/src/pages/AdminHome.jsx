@@ -22,6 +22,9 @@ const AdminHome = () => {
             <NavLink to="/admin/centers" className={({ isActive }) => (isActive ? 'active' : '')}>Centers</NavLink>
           </li>
           <li>
+            <NavLink to="/admin/approvals" className={({ isActive }) => (isActive ? 'active' : '')}>Approvals</NavLink>
+          </li>
+          <li>
             <NavLink to="/admin/profile" className={({ isActive }) => (isActive ? 'active' : '')}>Profile</NavLink>
           </li>
           <li>

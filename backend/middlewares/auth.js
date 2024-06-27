@@ -1,59 +1,132 @@
 import jwt from 'jsonwebtoken';
 import ErrorHandler from './error.js';
-import { catchAsyncErrors } from './catchAsyncError.js';
-// Middleware to check if user is authenticated
-export const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
-  const { token } = req.cookies;
+import Student from '../models/studentSchema.js';
+import Teacher from '../models/teacherSchema.js';
+import Institution from '../models/institutionSchema.js';
+import Center from '../models/centerSchema.js';
+import Admin from '../models/adminSchema.js';
 
-  if (!token) {
-    return next(new ErrorHandler('Please login to access this resource', 401));
+export const authenticateStudent = async (req, res, next) => {
+  const { authToken } = req.cookies;
+
+  if (!authToken) {
+    return res.status(401).json({ message: 'No token found. You are not authorized to access this page.' });
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    console.log('Decoded JWT:', decoded);
+    const decoded = jwt.verify(authToken, process.env.JWT_SECRET_KEY);
+    console.log('Token decoded:', decoded);
 
-    let user;
-    switch (decoded.type) {
-      case 'student':
-        user = await Student.findById(decoded.id);
-        break;
-      case 'teacher':
-        user = await Teacher.findById(decoded.id);
-        break;
-      case 'institution':
-        user = await Institution.findById(decoded.id);
-        break;
-      case 'center':
-        user = await Center.findById(decoded.id);
-        break;
-      case 'admin':
-        user = await Admin.findById(decoded.id);
-        break;
-      default:
-        throw new ErrorHandler('Invalid user type', 401);
+    const student = await Student.findById(decoded.id);
+    if (!student) {
+      console.log(`Student not found for ID: ${decoded.id}`);
+      return res.status(404).json({ message: 'Student not found' });
     }
 
-    if (!user) {
-      return next(new ErrorHandler('User not found based on token', 401));
-    }
-
-    req.user = user;
+    req.student = student;
     next();
   } catch (error) {
-    return next(new ErrorHandler('User not authorized', 401));
+    console.log(`Authentication error: ${error.message}`);
+    return res.status(401).json({ message: 'Invalid token' });
   }
-});
+};
 
-// Middleware to check if the user is admin
-export const isAdmin = (req, res, next) => {
-  if (!req.user) {
-    return res.status(401).json({ success: false, message: 'You are not logged in.' });
+export const authenticateTeacher = async (req, res, next) => {
+  const { authToken } = req.cookies;
+
+  if (!authToken) {
+    return res.status(401).json({ message: 'No token found. You are not authorized to access this page.' });
   }
 
-  if (req.user.type === 'admin') {
-    return next();
-  } else {
-    return res.status(403).json({ success: false, message: 'Access denied. Only admins are allowed.' });
+  try {
+    const decoded = jwt.verify(authToken, process.env.JWT_SECRET_KEY);
+    console.log('Token decoded:', decoded);
+
+    const teacher = await Teacher.findById(decoded.id);
+    if (!teacher) {
+      console.log(`Teacher not found for ID: ${decoded.id}`);
+      return res.status(404).json({ message: 'Teacher not found' });
+    }
+
+    req.teacher = teacher;
+    next();
+  } catch (error) {
+    console.log(`Authentication error: ${error.message}`);
+    return res.status(401).json({ message: 'Invalid token' });
+  }
+};
+
+export const authenticateInstitution = async (req, res, next) => {
+  const { authToken } = req.cookies;
+
+  if (!authToken) {
+    return res.status(401).json({ message: 'No token found. You are not authorized to access this page.' });
+  }
+
+  try {
+    const decoded = jwt.verify(authToken, process.env.JWT_SECRET_KEY);
+    console.log('Token decoded:', decoded);
+
+    const institution = await Institution.findById(decoded.id);
+    if (!institution) {
+      console.log(`Institution not found for ID: ${decoded.id}`);
+      return res.status(404).json({ message: 'Institution not found' });
+    }
+
+    req.institution = institution;
+    next();
+  } catch (error) {
+    console.log(`Authentication error: ${error.message}`);
+    return res.status(401).json({ message: 'Invalid token' });
+  }
+};
+
+export const authenticateCenter = async (req, res, next) => {
+  const { authToken } = req.cookies;
+
+  if (!authToken) {
+    return res.status(401).json({ message: 'No token found. You are not authorized to access this page.' });
+  }
+
+  try {
+    const decoded = jwt.verify(authToken, process.env.JWT_SECRET_KEY);
+    console.log('Token decoded:', decoded);
+
+    const center = await Center.findById(decoded.id);
+    if (!center) {
+      console.log(`Center not found for ID: ${decoded.id}`);
+      return res.status(404).json({ message: 'Center not found' });
+    }
+
+    req.center = center;
+    next();
+  } catch (error) {
+    console.log(`Authentication error: ${error.message}`);
+    return res.status(401).json({ message: 'Invalid token' });
+  }
+};
+
+export const authenticateAdmin = async (req, res, next) => {
+  const { authToken } = req.cookies;
+
+  if (!authToken) {
+    return res.status(401).json({ message: 'No token found. You are not authorized to access this page.' });
+  }
+
+  try {
+    const decoded = jwt.verify(authToken, process.env.JWT_SECRET_KEY);
+    console.log('Token decoded:', decoded);
+
+    const admin = await Admin.findById(decoded.id);
+    if (!admin) {
+      console.log(`Admin not found for ID: ${decoded.id}`);
+      return res.status(404).json({ message: 'Admin not found' });
+    }
+
+    req.admin = admin;
+    next();
+  } catch (error) {
+    console.log(`Authentication error: ${error.message}`);
+    return res.status(401).json({ message: 'Invalid token' });
   }
 };

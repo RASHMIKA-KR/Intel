@@ -1,4 +1,8 @@
 /* src/assets/NavigationBar.css */
+.active {
+  font-weight: bold;
+  color: red; /* Change this to your desired active link color */
+}
 
 .navbar {
     background-color: #444;
@@ -48,4 +52,3 @@
     outline: none;
     border-bottom: 3px solid #ff6347; /* Tomato */
   }
-  

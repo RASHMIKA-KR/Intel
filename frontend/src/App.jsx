@@ -12,6 +12,12 @@ import CentersList from "./components/Student/CentersList";
 import CenterDetails from "./components/Student/CenterDetails";
 import MaterialList from './components/Student/MaterialList';
 import AdminLogin from './components/Admin/AdminLogin';
+import ApprovalsPage from './components/Admin/ApprovalsPage';
+import InstitutionsPage from './components/Admin/InstitutionsPage';
+import CentersPage from './components/Admin/CentersPage';
+import InstitutionDetail from './components/Admin/InstitutionDetail';
+import CenterDetail from './components/Admin/CenterDetail';
+
 function App() {
   return (
     <BrowserRouter>
@@ -31,6 +37,12 @@ function App() {
         <Route path="/student/centre" element={<CentersList />} />
         <Route path="/student/center/:id" element={<CenterDetails />} />
         <Route path="/student/materials" element={<MaterialList/>}/>
+        <Route path="/admin/approvals" element={<ApprovalsPage />} />
+        <Route path="/admin/institutions" element={<InstitutionsPage />} />
+        <Route path="/admin/centers" element={<CentersPage />} />
+        <Route path="/admin/institutions/:id" element={<InstitutionDetail />} />
+        <Route path="/admin/centers/:id" element={<CenterDetail />} />
+
       </Routes>
     </BrowserRouter>
   );
