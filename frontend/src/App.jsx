@@ -9,6 +9,7 @@ import CenterRegistrationLogin from './components/Center/CenterRegistrationLogin
 //students
 import StudentHome from './pages/StudentHome';
 import InstitutionsList from './components/Student/InstitutionsList';
+import AdminHome from './pages/AdminHome';
 import InstitutionDetails from "./components/Student/InstitutionDetails";
 import CentersList from "./components/Student/CentersList";
 import CenterDetails from "./components/Student/CenterDetails";
@@ -26,6 +27,9 @@ function App() {
         <Route path="/institution/register" element={<InstitutionRegistrationLogin />} />  
         <Route path="/center/register" element={<CenterRegistrationLogin />} />  
         <Route path="/admin/login" element={<AdminLogin />} /> 
+        <Route path="/student/home" element={<StudentHome />} />
+        <Route path="/admin/home" element={<AdminHome/>}/> 
+        <Route path="/student/institution" element={<InstitutionsList />} /> 
         <Route path="/student/home" element={<StudentHome />} /> 
         <Route path="/student/institution" element={<InstitutionsList />} />
         <Route path="/student/institution/:id" element={<InstitutionDetails/>} /> 

@@ -1,5 +1,4 @@
 // src/pages/StudentHome.jsx
-import React from "react";
 import NavigationBar from "../components/Student/NavigationBar";
 import "../assets/StudentHome.css";
 
