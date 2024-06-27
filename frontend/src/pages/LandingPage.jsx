@@ -14,21 +14,31 @@ const LandingPage = () => {
               <h2>Student</h2>
             </Link>
           </div>
-          <div className="card" onClick={() => window.location.href = '/admin/login'}>
-            <i className="fas fa-chalkboard-teacher"></i>
-            <h2>Teacher</h2>
+          <div className="card" >
+            <Link to="/teacher/register">
+              <i className="fas fa-user"></i>
+              <h2>Teacher</h2>
+            </Link>
           </div>
-          <div className="card" onClick={() => window.location.href = '/institution/register'}>
-            <i className="fas fa-university"></i>
-            <h2>Institution</h2>
+          <div className="card" >
+          <Link to="/institution/register">
+              <i className="fas fa-user"></i>
+              <h2>Institution</h2>
+            </Link>
           </div>
-          <div className="card" onClick={() => window.location.href = '/center/register'}>
-            <i className="fas fa-building"></i>
-            <h2>Center</h2>
+          <div className="card" >
+          <Link to="/center/register">
+              <i className="fas fa-user"></i>
+              <h2>Center</h2>
+            </Link>
+            
           </div>
-          <div className="card" onClick={() => window.location.href = '/Admin/login'}>
-            <i className="fas fa-lock"></i>
-            <h2>Admin</h2>
+          <div className="card">
+            <Link to="/admin/login">
+              <i className="fas fa-user"></i>
+              <h2>Admin</h2>
+            </Link>
+            
           </div>
         </div>
       </main>

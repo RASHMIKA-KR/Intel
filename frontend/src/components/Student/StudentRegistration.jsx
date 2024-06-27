@@ -1,7 +1,10 @@
-import { useState, useEffect } from "react";
+
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import "../../assets/StudentRegistration.css"; // Assuming you have CSS for styling
+import { Navigate } from "react-router-dom";
+import "../../assets/StudentRegistration.css";
+import { Context } from "../../main";
 
 const StudentRegistration = () => {
   const [name, setName] = useState("");
@@ -16,7 +19,8 @@ const StudentRegistration = () => {
   const [standard, setStandard] = useState("");
   const [collegeDepartment, setCollegeDepartment] = useState("");
   const [yearOfStudy, setYearOfStudy] = useState("");
-  
+  const { isAuthorized, setIsAuthorized } = useContext(Context);
+
   const handleSignUp = async (event) => {
     event.preventDefault();
     try {
@@ -38,34 +42,33 @@ const StudentRegistration = () => {
         }
       );
 
-  if (response.data.success) {
-    toast.success(response.data.message);
-    clearFormFields();
-  }
-} catch (error) {
-  toast.error(error.response?.data?.message || 'Registration failed');
-}
-};
-const [Email, setsigninEmail] = useState("");
-  const [Password, setsigninPassword] = useState("");
+      if (response.data.success) {
+        toast.success(response.data.message);
+        clearFormFields();
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Registration failed");
+    }
+  };
+
   const handleSignIn = async (event) => {
     event.preventDefault();
     try {
       const response = await axios.post(
         "http://localhost:4000/api/student/login",
         {
-          Email,
-          Password,
+          email,
+          password,
         }
       );
 
       if (response.data.success) {
         toast.success(response.data.message);
         clearSignInFields();
-        // Handle successful login, e.g., store token in localStorage or cookies
+        setIsAuthorized(true);
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Login failed');
+      toast.error(error.response?.data?.message || "Login failed");
     }
   };
 
@@ -85,11 +88,10 @@ const [Email, setsigninEmail] = useState("");
   };
 
   const clearSignInFields = () => {
-    setsigninEmail("");
-    setsigninPassword("");
+    setEmail("");
+    setPassword("");
   };
 
-  // Effect for adding and removing event listeners
   useEffect(() => {
     const signUpButton = document.getElementById("signUp");
     const signInButton = document.getElementById("signIn");
@@ -112,7 +114,11 @@ const [Email, setsigninEmail] = useState("");
         container.classList.remove("right-panel-active");
       });
     };
-  }, []); // Run once on component mount
+  }, []); // Ensure this runs only once on component mount
+
+  if (isAuthorized) {
+    return <Navigate to={"/student/home"} />;
+  }
 
   return (
     <div className="container" id="container">
@@ -213,13 +219,13 @@ const [Email, setsigninEmail] = useState("");
             type="email"
             placeholder="Email"
             value={email}
-            onChange={(e) => setsigninEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
             placeholder="Password"
             value={password}
-            onChange={(e) => setsigninPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <br/>
           <button type="submit">Sign In</button>
