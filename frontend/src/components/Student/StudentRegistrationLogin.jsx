@@ -4,6 +4,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { Navigate } from "react-router-dom";
 import "../../assets/RegistrationLogin.css";
 import { Context } from "../../main";
+import Cookies from 'js-cookie';
 
 const StudentRegistration = () => {
   const [name, setName] = useState("");
@@ -62,9 +63,15 @@ const StudentRegistration = () => {
       );
 
       if (response.data.success) {
-        toast.success(response.data.message);
-        clearSignInFields();
-        setIsAuthorized(true);
+        const token = response.data.token;
+        if (token) {
+          Cookies.set('authToken', token, { expires: 1 }); // Set the token as a cookie
+          toast.success(response.data.message);
+          clearSignInFields();
+          setIsAuthorized(true);
+        } else {
+          toast.error("No token received. Please try again.");
+        }
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed");
@@ -208,7 +215,7 @@ const StudentRegistration = () => {
             </>
           )}
           <br/>
-          <button type="submit">Sign Up</button>
+          <button className="sign-button"type="submit">Sign Up</button>
         </form>
       </div>
       <div className="form-container sign-in-container">
@@ -227,7 +234,7 @@ const StudentRegistration = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <br/>
-          <button type="submit">Sign In</button>
+          <button className="sign-button"type="submit">Sign In</button>
         </form>
       </div>
       <div className="overlay-container">

@@ -6,10 +6,12 @@ import InstitutionRegistrationLogin from './components/Institution/InstitutionRe
 import CenterRegistrationLogin from './components/Center/CenterRegistrationLogin';
 import StudentHome from './pages/StudentHome';
 import InstitutionsList from './components/Student/InstitutionsList';
+
 import InstitutionDetails from "./components/Student/InstitutionDetails";
 import CentersList from "./components/Student/CentersList";
 import CenterDetails from "./components/Student/CenterDetails";
 import MaterialList from './components/Student/MaterialList';
+import AdminLogin from './components/Admin/AdminLogin';
 function App() {
   return (
     <BrowserRouter>
@@ -19,6 +21,7 @@ function App() {
         <Route path="/teacher/register" element={<TeacherRegistrationLogin />} />  
         <Route path="/institution/register" element={<InstitutionRegistrationLogin />} />  
         <Route path="/center/register" element={<CenterRegistrationLogin />} />  
+        <Route path="/admin/login" element={<AdminLogin />} /> 
         <Route path="/student/home" element={<StudentHome />} /> 
         <Route path="/student/institution" element={<InstitutionsList />} />
         <Route path="/student/institution/:id" element={<InstitutionDetails/>} /> 

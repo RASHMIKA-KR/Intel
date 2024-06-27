@@ -56,7 +56,12 @@ button {
     text-transform: uppercase;
     transition: transform 80ms ease-in;
 }
-
+.sign-button:hover {
+    transform: scale(1.05); /* Example transformation on hover */
+    background: #3c97bf; /* Updated background gradient */
+    background: -webkit-linear-gradient(to right, #3c97bf, #3c5dbf); /* Updated background gradient for WebKit */
+    background: linear-gradient(to right, #3c97bf, #3c5dbf); /* Updated background gradient for other browsers */
+  }
 button:active {
     transform: scale(0.95);
 }

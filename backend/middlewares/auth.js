@@ -45,58 +45,6 @@ export const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-// Middleware to check if the user is a teacher
-export const isTeacher = (req, res, next) => {
-  if (!req.user) {
-    return res.status(401).json({ success: false, message: 'You are not logged in.' });
-  }
-
-  if (req.user.type === 'teacher') {
-    return next();
-  } else {
-    return res.status(403).json({ success: false, message: 'Access denied. Only teachers are allowed.' });
-  }
-};
-
-// Middleware to check if the user is an institution
-export const isInstitution = (req, res, next) => {
-  if (!req.user) {
-    return res.status(401).json({ success: false, message: 'You are not logged in.' });
-  }
-
-  if (req.user.type === 'institution') {
-    return next();
-  } else {
-    return res.status(403).json({ success: false, message: 'Access denied. Only institutions are allowed.' });
-  }
-};
-
-// Middleware to check if the user is a center
-export const isCenter = (req, res, next) => {
-  if (!req.user) {
-    return res.status(401).json({ success: false, message: 'You are not logged in.' });
-  }
-
-  if (req.user.type === 'center') {
-    return next();
-  } else {
-    return res.status(403).json({ success: false, message: 'Access denied. Only centers are allowed.' });
-  }
-};
-
-// Middleware to check if the user is a student
-export const isStudent = (req, res, next) => {
-  if (!req.user) {
-    return res.status(401).json({ success: false, message: 'You are not logged in.' });
-  }
-
-  if (req.user.type === 'student') {
-    return next();
-  } else {
-    return res.status(403).json({ success: false, message: 'Access denied. Only students are allowed.' });
-  }
-};
-
 // Middleware to check if the user is admin
 export const isAdmin = (req, res, next) => {
   if (!req.user) {
