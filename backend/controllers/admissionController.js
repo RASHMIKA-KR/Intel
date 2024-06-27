@@ -2,7 +2,7 @@ import Admission from "../models/admissionSchema.js";
 import ErrorHandler from "../middlewares/error.js";
 
 // @desc    Get all admissions
-export const getAdmissions = async (req, res) => {
+export const getAllAdmissions = async (req, res) => {
   try {
     const admissions = await Admission.find();
     if (admissions.length === 0) {

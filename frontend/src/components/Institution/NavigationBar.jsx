@@ -1,73 +1,62 @@
-<<<<<<< HEAD
-=======
 import React from "react";
->>>>>>> 4837aa0272e8b54b7e26e8b0ff85af56dd2c32ab
 import { NavLink } from "react-router-dom";
-import "../../assets/NavigationBar.css";
+import "../../assets/NavigationBar.css"; // Update the path accordingly
 
 const NavigationBar = () => {
   return (
     <nav className="navbar">
-      <ul>
-        <li>
+      <ul className="nav-list">
+        <li className="nav-item">
           <NavLink 
-            to="/student/home" 
+            to="/institution/home" 
             className={({ isActive }) => (isActive ? "active" : "")}
           >
             Home
           </NavLink>
         </li>
-        <li>
+        <li className="nav-item">
           <NavLink 
-            to="/student/institution" 
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            Institution
-          </NavLink>
-        </li>
-        <li>
-          <NavLink 
-            to="/student/centre" 
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            Center
-          </NavLink>
-        </li>
-        <li>
-          <NavLink 
-            to="/student/admissions" 
+            to="/institution/admissions" 
             className={({ isActive }) => (isActive ? "active" : "")}
           >
             Admissions
           </NavLink>
         </li>
-        <li>
+        <li className="nav-item">
           <NavLink 
-            to="/student/materials" 
+            to="/institution/vacancy" 
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Vacancy
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink 
+            to="/institution/materials" 
             className={({ isActive }) => (isActive ? "active" : "")}
           >
             Materials
           </NavLink>
         </li>
-        <li>
+        <li className="nav-item">
           <NavLink 
-            to="/student/myAdmissions" 
+            to="/institution/inquiries" 
             className={({ isActive }) => (isActive ? "active" : "")}
           >
-            My Admissions
+            Enquiries
           </NavLink>
         </li>
-        <li>
+        <li className="nav-item">
           <NavLink 
-            to="/student/profile" 
+            to="/institution/profile" 
             className={({ isActive }) => (isActive ? "active" : "")}
           >
             Profile
           </NavLink>
         </li>
-        <li>
+        <li className="nav-item">
           <NavLink 
-            to="/student/logout" 
+            to="/institution/logout" 
             className={({ isActive }) => (isActive ? "active" : "")}
           >
             Logout

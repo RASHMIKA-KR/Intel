@@ -19,13 +19,13 @@ export const registerTeacher = catchAsyncErrors(async (req, res, next) => {
     institutionDetails,
   } = req.body;
   // Check if any required fields are missing
-  const requiredFields = ['name', 'email', 'password', 'gender', 'address', 'age', 'phone', 'institutionType', 'institutionName'];
+  const requiredFields = ['name', 'email', 'password', 'gender', 'address', 'age', 'phone', 'institutionType', 'name'];
   const missingFields = requiredFields.filter(field => !req.body[field]);
   if (missingFields.length > 0) {
       return next(new ErrorHandler(`Missing required fields: ${missingFields.join(', ')}`, 400));
   }
     // Check if the user already exists
-    const existingUser = await Student.findOne({ email });
+    const existingUser = await Teacher.findOne({ email });
     if (existingUser) {
         return next(new ErrorHandler("Teacher already exists!", 400));
     }

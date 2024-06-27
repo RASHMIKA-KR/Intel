@@ -7,7 +7,7 @@ import { changeEnquiryStatus, getAdmissionEnquiryById,getAllAdmissionEnquiries} 
 import { getAllMaterials, getMaterialById, getMyMaterials, postMaterial,deleteSingleMaterial } from './materialController.js';
 import {postVacancy,updatevacancy,deleteVacancy,getVacanciesByMe} from '../controllers/vacancyController.js';
 import {getVacancyEnquiryById,getAllVacancyEnquiries,changeVacancyEnquiryStatus,} from '../controllers/vacancyEnquiryController.js';
-
+import { sendToken } from "../utils/jwtToken.js";
 export const registerInstitution = catchAsyncErrors(async (req, res, next) => {
   const {
     name,

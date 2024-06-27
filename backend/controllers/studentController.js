@@ -6,7 +6,7 @@ import ErrorHandler from "../middlewares/error.js";
 import { sendToken } from "../utils/jwtToken.js";
 import { getAllMaterials, getMaterialById} from './materialController.js';
 import { applyToAdmission, getMyAdmissionEnquiries} from './admissionEnquiryController.js';
-
+import { getAllAdmissions } from  './admissionController.js';
 // Register a new student
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
     const {
@@ -141,6 +141,11 @@ export const getInstitutionById = catchAsyncErrors(async (req, res, next) => {
 // Get centers
 export const getCenters = catchAsyncErrors(async (req, res, next) => {
   const centers = await Center.find();
+
+  if (!centers || centers.length === 0) {
+    return next(new ErrorHandler("No Centers available", 404));
+  }
+
   res.status(200).json({
     success: true,
     centers,
@@ -161,7 +166,7 @@ export const getCenterById = catchAsyncErrors(async (req, res, next) => {
 
 // Get all posted admissions
 export const getAllPostedAdmissions = catchAsyncErrors(async (req, res, next) => {
-  await getAdmissions(req, res, next);
+  await getAllAdmissions(req, res, next);
 
 });
 

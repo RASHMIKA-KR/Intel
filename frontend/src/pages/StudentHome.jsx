@@ -1,6 +1,6 @@
 // src/pages/StudentHome.jsx
 import NavigationBar from "../components/Student/NavigationBar";
-import "../assets/StudentHome.css";
+import "../assets/NavigationBar.css";
 
 const StudentHome = () => {
   return (
