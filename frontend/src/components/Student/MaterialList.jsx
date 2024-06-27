@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../../main"; // Assuming you have defined your context in main.js or main.jsx
-import NavigationBar from "./NavigationBarS";
+import StudentNavigationBar from "./StudentNavigationBar";
 
 const MaterialList = () => {
   const [materials, setMaterials] = useState([]); // State to hold materials array
@@ -34,7 +34,7 @@ const MaterialList = () => {
   // JSX rendering
   return (
     <div className="home-container">
-      <NavigationBar />
+      <StudentNavigationBar />
       <div className="content">
         <h1>All Available Materials</h1>
         <ul>

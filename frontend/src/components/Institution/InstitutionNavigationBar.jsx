@@ -1,62 +1,70 @@
-import React from "react";
+// src/components/Institution/NavigationBar.jsx
 import { NavLink } from "react-router-dom";
+import "../../assets/Stu-Navbar.css";
 
-const NavigationBar = () => {
+const InstitutionNavigationBar = () => {
   return (
     <nav className="navbar">
-      <ul className="nav-list">
-        <li className="nav-item">
+      <ul>
+        <li>
           <NavLink 
             to="/institution/home" 
-            className={({ isActive }) => (isActive ? "active" : "")}
+            className="nav-link"
+            activeClassName="active"
           >
             Home
           </NavLink>
         </li>
-        <li className="nav-item">
+        <li>
           <NavLink 
             to="/institution/admissions" 
-            className={({ isActive }) => (isActive ? "active" : "")}
+            className="nav-link"
+            activeClassName="active"
           >
             Admissions
           </NavLink>
         </li>
-        <li className="nav-item">
+        <li>
           <NavLink 
             to="/institution/vacancy" 
-            className={({ isActive }) => (isActive ? "active" : "")}
+            className="nav-link"
+            activeClassName="active"
           >
             Vacancy
           </NavLink>
         </li>
-        <li className="nav-item">
+        <li>
           <NavLink 
             to="/institution/materials" 
-            className={({ isActive }) => (isActive ? "active" : "")}
+            className="nav-link"
+            activeClassName="active"
           >
             Materials
           </NavLink>
         </li>
-        <li className="nav-item">
+        <li>
           <NavLink 
-            to="/institution/inquiries" 
-            className={({ isActive }) => (isActive ? "active" : "")}
+            to="/institution/enquiries" 
+            className="nav-link"
+            activeClassName="active"
           >
             Enquiries
           </NavLink>
         </li>
-        <li className="nav-item">
+        <li>
           <NavLink 
             to="/institution/profile" 
-            className={({ isActive }) => (isActive ? "active" : "")}
+            className="nav-link"
+            activeClassName="active"
           >
             Profile
           </NavLink>
         </li>
-        <li className="nav-item">
+        <li>
           <NavLink 
             to="/institution/logout" 
-            className={({ isActive }) => (isActive ? "active" : "")}
+            className="nav-link"
+            activeClassName="active"
           >
             Logout
           </NavLink>
@@ -66,4 +74,4 @@ const NavigationBar = () => {
   );
 };
 
-export default NavigationBar;
+export default InstitutionNavigationBar;

@@ -1,10 +1,11 @@
 // src/pages/CenterHome.jsx
 import "../assets/Home.css"; // Assuming common styles are here
+import CenterNavigationBar from "../components/Center/CenterNavigationBar"; // Update the path accordingly
 
 const CenterHome = () => {
   return (
     <div className="home-container">
-      <NavigationBar />
+      <CenterNavigationBar />
       <div className="content">
         <br></br>
         <h1>Center Home</h1>

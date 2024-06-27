@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import NavigationBar from "./NavigationBarS";
+import StudentNavigationBar from "./StudentNavigationBar";
 import "../../assets/CardStudent.css";
 
 const InstitutionsList = () => {
@@ -35,7 +35,7 @@ const InstitutionsList = () => {
 
   return (
     <div className="card-home-container">
-      <NavigationBar />
+      <StudentNavigationBar />
       <div className="content">
         <h1>Institutions List</h1>
         {institutions.length > 0 ? (

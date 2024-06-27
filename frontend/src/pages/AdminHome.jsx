@@ -1,37 +1,10 @@
-import { NavLink } from "react-router-dom";
+import AdminNavigationBar from "../components/Admin/AdminNavigationBar";
 import "../assets/Home.css";
 
 const AdminHome = () => {
   return (
     <div className="home-container">
-      <nav>
-        <ul>
-        <li>
-          <NavLink to="/admin/home" className={({ isActive }) => (isActive ? 'active' : '')}>Home</NavLink>
-          </li>
-          <li>
-            <NavLink to="/admin/students" className={({ isActive }) => (isActive ? 'active' : '')}>Students</NavLink>
-          </li>
-          <li>
-            <NavLink to="/admin/teachers" className={({ isActive }) => (isActive ? 'active' : '')}>Teachers</NavLink>
-          </li>
-          <li>
-            <NavLink to="/admin/institutions" className={({ isActive }) => (isActive ? 'active' : '')}>Institutions</NavLink>
-          </li>
-          <li>
-            <NavLink to="/admin/centers" className={({ isActive }) => (isActive ? 'active' : '')}>Centers</NavLink>
-          </li>
-          <li>
-            <NavLink to="/admin/approvals" className={({ isActive }) => (isActive ? 'active' : '')}>Approvals</NavLink>
-          </li>
-          <li>
-            <NavLink to="/admin/profile" className={({ isActive }) => (isActive ? 'active' : '')}>Profile</NavLink>
-          </li>
-          <li>
-            <NavLink to="/admin/logout" className={({ isActive }) => (isActive ? 'active' : '')}>Logout</NavLink>
-          </li>
-        </ul>
-      </nav>
+      <AdminNavigationBar />
       <div className="content">
         <br></br>
         <h1>Admin Home</h1>

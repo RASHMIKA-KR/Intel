@@ -2,7 +2,7 @@
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import NavigationBar from "./NavigationBarS";
+import StudentNavigationBar from "./StudentNavigationBar";
 import "../../assets/InstitutionDetails.css";
 import { Context } from "../../main";
 
@@ -39,8 +39,8 @@ const CenterDetails = () => {
   if (!center) {
     return (
       <div className="stu-ins-container">
-        <NavigationBar />
-        <div className="content">
+      <StudentNavigationBar />
+      <div className="content">
           <h1>Loading...</h1>
         </div>
       </div>
@@ -49,8 +49,8 @@ const CenterDetails = () => {
 
   return (
     <div className="stu-ins-container">
-    <NavigationBar />
-    <div className="stu-ins-content">
+      <StudentNavigationBar />
+      <div className="stu-ins-content">
       <div className="details">
         <h1>{center.name}</h1>
         <p><strong>Email:</strong> {center.email}</p>

@@ -1,13 +1,13 @@
-import { NavLink } from 'react-router-dom';
-import "../../assets/Stu-Navbar.css"; // Import your CSS file
-
-const NavigationBar = () => {
+// src/components/Teacher/NavigationBar.jsx
+import { NavLink } from "react-router-dom";
+import "../../assets/Stu-Navbar.css";
+const TeacherNavigationBar= () => {
   return (
     <nav className="navbar">
       <ul>
         <li>
           <NavLink 
-            to="/student/home" 
+            to="/teacher/home" 
             className="nav-link"
             activeClassName="active"
           >
@@ -16,34 +16,7 @@ const NavigationBar = () => {
         </li>
         <li>
           <NavLink 
-            to="/student/institution" 
-            className="nav-link"
-            activeClassName="active"
-          >
-            Institution
-          </NavLink>
-        </li>
-        <li>
-          <NavLink 
-            to="/student/centre" 
-            className="nav-link"
-            activeClassName="active"
-          >
-            Center
-          </NavLink>
-        </li>
-        <li>
-          <NavLink 
-            to="/student/admissions" 
-            className="nav-link"
-            activeClassName="active"
-          >
-            Admissions
-          </NavLink>
-        </li>
-        <li>
-          <NavLink 
-            to="/student/materials" 
+            to="/teacher/materials" 
             className="nav-link"
             activeClassName="active"
           >
@@ -52,16 +25,25 @@ const NavigationBar = () => {
         </li>
         <li>
           <NavLink 
-            to="/student/myAdmissions" 
+            to="/student/vacancy" 
             className="nav-link"
             activeClassName="active"
           >
-            My Admissions
+            Vacancy
           </NavLink>
         </li>
         <li>
           <NavLink 
-            to="/student/profile" 
+            to="/teacher/myAppliedVacancy" 
+            className="nav-link"
+            activeClassName="active"
+          >
+            My Applied Vacancy
+          </NavLink>
+        </li>
+        <li>
+          <NavLink 
+            to="/teacher/profile" 
             className="nav-link"
             activeClassName="active"
           >
@@ -70,7 +52,7 @@ const NavigationBar = () => {
         </li>
         <li>
           <NavLink 
-            to="/student/logout" 
+            to="/teacher/logout" 
             className="nav-link"
             activeClassName="active"
           >
@@ -82,4 +64,5 @@ const NavigationBar = () => {
   );
 };
 
-export default NavigationBar;
+
+export default TeacherNavigationBar;

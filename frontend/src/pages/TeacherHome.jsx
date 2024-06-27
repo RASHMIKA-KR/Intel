@@ -1,9 +1,9 @@
 import "../assets/Home.css";
-import NavigationBar from "../components/Teacher/NavigationBarT";
+import TeacherNavigationBar from "../components/Teacher/TeacherNavigationBar";
 const TeacherHome = () => {
   return (
     <div className="home-container">
-      <NavigationBar />
+      <TeacherNavigationBar />
       <div className="content">
         <h1>Teacher Home</h1>
         <p>Welcome to the Teacher Home page. Here, you can find all the information and resources you need as a teacher. Navigate through the links above to explore various sections like Vacancy, Materials, My Applied Vacancy, Profile, and Logout.</p>

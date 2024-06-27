@@ -1,9 +1,9 @@
 import "../assets/Home.css";
-import NavigationBar from "../components/Student/NavigationBarS";
+import StudentNavigationBar from "../components/Student/StudentNavigationBar";
 const StudentHome = () => {
   return (
     <div className="home-container">
-      <NavigationBar />
+      <StudentNavigationBar />
       <div className="content">
         <br></br>
         <h1>Student Home</h1>

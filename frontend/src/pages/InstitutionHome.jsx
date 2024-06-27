@@ -1,10 +1,10 @@
-import NavigationBar from "../components/Institution/NavigationBarI"; // Update the path accordingly
+import InstitutionNavigationBar from "../components/Institution/InstitutionNavigationBar"; // Update the path accordingly
 import "../assets/Home.css"; // Update the path accordingly
 
 const InstitutionHome = () => {
   return (
     <div className="home-container">
-      <NavigationBar />
+      <InstitutionNavigationBar />
       <div className="content">
         <br></br>
         <h1>Institution Home</h1>

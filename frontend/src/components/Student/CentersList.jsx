@@ -2,7 +2,7 @@
 import  { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import NavigationBar from "./NavigationBarS";
+import StudentNavigationBar from "./StudentNavigationBar";
 import "../../assets/CardStudent.css"; // Assuming you have this CSS file for common styles
 
 const CentersList = () => {
@@ -39,7 +39,7 @@ const CentersList = () => {
 
   return (
     <div className="card-home-container">
-      <NavigationBar />
+      <StudentNavigationBar />
       <div className="card-content">
         <h1>Centers List</h1>
         {centers.length > 0 ? (

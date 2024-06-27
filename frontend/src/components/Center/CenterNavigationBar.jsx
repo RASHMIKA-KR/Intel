@@ -1,13 +1,14 @@
-// src/components/Teacher/NavigationBar.jsx
+// src/components/Center/NavigationBar.jsx
 import { NavLink } from "react-router-dom";
 import "../../assets/Stu-Navbar.css";
-const NavigationBar = () => {
+
+const CenterNavigationBar = () => {
   return (
     <nav className="navbar">
       <ul>
         <li>
           <NavLink 
-            to="/teacher/home" 
+            to="/center/home" 
             className="nav-link"
             activeClassName="active"
           >
@@ -16,16 +17,16 @@ const NavigationBar = () => {
         </li>
         <li>
           <NavLink 
-            to="/teacher/materials" 
+            to="/center/admissions" 
             className="nav-link"
             activeClassName="active"
           >
-            Materials
+            Admissions
           </NavLink>
         </li>
         <li>
           <NavLink 
-            to="/student/vacancy" 
+            to="/center/vacancy" 
             className="nav-link"
             activeClassName="active"
           >
@@ -34,16 +35,25 @@ const NavigationBar = () => {
         </li>
         <li>
           <NavLink 
-            to="/teacher/myAppliedVacancy" 
+            to="/center/materials" 
             className="nav-link"
             activeClassName="active"
           >
-            My Applied Vacancy
+            Materials
           </NavLink>
         </li>
         <li>
           <NavLink 
-            to="/teacher/profile" 
+            to="/center/enquiries" 
+            className="nav-link"
+            activeClassName="active"
+          >
+            Enquiries
+          </NavLink>
+        </li>
+        <li>
+          <NavLink 
+            to="/center/profile" 
             className="nav-link"
             activeClassName="active"
           >
@@ -52,7 +62,7 @@ const NavigationBar = () => {
         </li>
         <li>
           <NavLink 
-            to="/teacher/logout" 
+            to="/center/logout" 
             className="nav-link"
             activeClassName="active"
           >
@@ -64,5 +74,4 @@ const NavigationBar = () => {
   );
 };
 
-
-export default NavigationBar;
+export default CenterNavigationBar;
