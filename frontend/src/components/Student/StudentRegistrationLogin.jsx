@@ -1,8 +1,8 @@
-import  { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { Navigate } from "react-router-dom";
-import "../../assets/StudentRegistration.css";
+import "../../assets/RegistrationLogin.css";
 import { Context } from "../../main";
 
 const StudentRegistration = () => {

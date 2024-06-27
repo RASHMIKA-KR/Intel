@@ -3,7 +3,7 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { Navigate } from "react-router-dom";
 import { Context } from "../../main";
-import "../../assets/InstitutionRegistration.css";
+import "../../assets/RegistrationLogin.css";
 
 const InstitutionRegistrationLogin = () => {
   const [name, setName] = useState("");
