@@ -28,7 +28,7 @@ import {
   getAllVEnquiries
 
 } from '../controllers/institutionController.js';
-import { isAuthenticated,isInstitution, isTeacher } from '../middlewares/auth.js';
+import { isAuthenticated } from '../middlewares/auth.js';
 
 const router = express.Router();
 
@@ -38,37 +38,37 @@ router.post('/login', loginInstitution);
 router.post('/logout', isAuthenticated, logoutInstitution);
 
 // Profile Routes
-router.get('/profile', isAuthenticated,isInstitution, getInstitutionProfile);
-router.put('/updateProfile', isAuthenticated, isInstitution,updateInstitutionProfile);
+router.get('/profile', isAuthenticated,   getInstitutionProfile);
+router.put('/updateProfile', isAuthenticated,   updateInstitutionProfile);
 
 // Learning Materials Routes
 
-router.get('materials', isAuthenticated, isInstitution,AllPostedMaterials);
-router.get('materials/:id', isAuthenticated, isInstitution,PostedMaterialById);
-router.get('myMaterials', isAuthenticated, isInstitution,MaterialsPostedByMe);
-router.post('/postMaterial', isAuthenticated, isInstitution,NewMaterialPost);
-router.delete('/delmaterial/:id', isAuthenticated, isInstitution,deletePostedMaterial);
+router.get('materials', isAuthenticated,   AllPostedMaterials);
+router.get('materials/:id', isAuthenticated,   PostedMaterialById);
+router.get('myMaterials', isAuthenticated,   MaterialsPostedByMe);
+router.post('/postMaterial', isAuthenticated,   NewMaterialPost);
+router.delete('/delmaterial/:id', isAuthenticated,   deletePostedMaterial);
 
 // Admissions Routes
-router.post('/postAdmission', isAuthenticated, isInstitution,postAdmission);
-router.get('/admission', isAuthenticated, isInstitution,getAdmissionsByMe);
-router.get('/admission/:id', isAuthenticated, isInstitution,getOneAdmission);
-router.put('/putAdmission/:id', isAuthenticated, isInstitution,updatePostedAdmission);
-router.delete('/delAdmission/:id', isAuthenticated, isInstitution,deletePostedAdmission);
+router.post('/postAdmission', isAuthenticated,   postAdmission);
+router.get('/admission', isAuthenticated,   getAdmissionsByMe);
+router.get('/admission/:id', isAuthenticated,   getOneAdmission);
+router.put('/putAdmission/:id', isAuthenticated,   updatePostedAdmission);
+router.delete('/delAdmission/:id', isAuthenticated,   deletePostedAdmission);
 
 // Admission Enquiries Routes
-router.get('/admissionEnquiry', isAuthenticated,isInstitution, getAllAdmissionEnquiry);
-router.get('/admissionEnquiry/:id', isAuthenticated, isInstitution,getOneAdmissionEnquiry);
-router.put('/admissionEnquiry/:id/status', isAuthenticated,isInstitution, updateEnquiryStatus);
+router.get('/admissionEnquiry', isAuthenticated,   getAllAdmissionEnquiry);
+router.get('/admissionEnquiry/:id', isAuthenticated,   getOneAdmissionEnquiry);
+router.put('/admissionEnquiry/:id/status', isAuthenticated,   updateEnquiryStatus);
 
-router.get('allvacancy',isAuthenticated,isInstitution,getvacanciesByMe);
-router.get('/vacancy/:id', isAuthenticated, isInstitution,getvacancybyId);
-router.post('/vacancy', isAuthenticated,isInstitution, createVacancy);
-router.put('/vacancy/:id', isAuthenticated, isInstitution, Updatevacancy);
-router.delete('/vacancy/:id', isAuthenticated,isInstitution, delVacancy);
+router.get('allvacancy',isAuthenticated,  getvacanciesByMe);
+router.get('/vacancy/:id', isAuthenticated,   getvacancybyId);
+router.post('/vacancy', isAuthenticated,   createVacancy);
+router.put('/vacancy/:id', isAuthenticated,    Updatevacancy);
+router.delete('/vacancy/:id', isAuthenticated,   delVacancy);
 
-router.get("/vacancy-enquiries",isAuthenticated, isTeacher,getAllVEnquiries);
-router.get("/vacancy-enquiry/:id",isAuthenticated,isTeacher,  getVEnquiryById);
-router.put('/vacancyEnquiry/:id/status', isAuthenticated,isTeacher, updateVEnquiryStatus);
+router.get("/vacancy-enquiries",isAuthenticated, getAllVEnquiries);
+router.get("/vacancy-enquiry/:id",isAuthenticated,getVEnquiryById);
+router.put('/vacancyEnquiry/:id/status', isAuthenticated, updateVEnquiryStatus);
 
 export default router;

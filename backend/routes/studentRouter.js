@@ -19,29 +19,28 @@ import {
   getmyAdmissionEnquiries
 } from '../controllers/studentController.js';
 
-import { isAuthenticated,isStudent } from '../middlewares/auth.js';
+import { isAuthenticated  } from '../middlewares/auth.js';
 
 const router = express.Router();
 
-router.get('/materials', isAuthenticated, isStudent ,getStudentMaterials);
-router.get('/materials/:id', isAuthenticated, isStudent ,getStudentMaterialById);
+router.get('/materials', isAuthenticated,   getStudentMaterials);
+router.get('/materials/:id', isAuthenticated,   getStudentMaterialById);
 
-router.get('/institutions', isAuthenticated, isStudent ,getInstitutions);
-router.get('/institutions/:id', isAuthenticated,isStudent , getInstitutionById);
-router.post('/institutions/:id/admissions/:id/apply',isAuthenticated, isStudent ,applyToInstitutionAdmission);
+router.get('/institutions',getInstitutions);
+router.get('/institutions/:id', isAuthenticated, getInstitutionById);
+router.post('/institutions/:id/admissions/:id/apply',isAuthenticated,  applyToInstitutionAdmission);
 
-router.get('/centers', isAuthenticated, isStudent ,getCenters);
-router.get('/centers/:id', isAuthenticated, isStudent ,getCenterById);
-router.post('/centers/:id/admissions/:id/apply', isAuthenticated,isStudent ,applyToCenterAdmission);
+router.get('/centers', isAuthenticated,   getCenters);
+router.get('/centers/:id', isAuthenticated,   getCenterById);
+router.post('/centers/:id/admissions/:id/apply', isAuthenticated,  applyToCenterAdmission);
 
-router.get('/postedadmissions', isAuthenticated,isStudent , getAllPostedAdmissions);
-router.get('/postedadmissions/:id', isAuthenticated,isStudent , getPostedAdmissionById);
-router.post('/postedadmissions/:id/apply',isAuthenticated,isStudent ,applyToAnyAdmission);
-router.get('/myenquiries',isAuthenticated, isStudent,getmyAdmissionEnquiries);
+router.get('/postedadmissions', isAuthenticated,   getAllPostedAdmissions);
+router.get('/postedadmissions/:id', isAuthenticated,  getPostedAdmissionById);
+router.post('/postedadmissions/:id/apply',isAuthenticated,  applyToAnyAdmission);
+router.get('/myenquiries',isAuthenticated,  getmyAdmissionEnquiries);
 
-router.get('/profile', isAuthenticated,isStudent , getProfile);
-router.put('/updateProfile', isAuthenticated, isStudent ,updateProfile);
-
+router.get('/profile', isAuthenticated,   getProfile);
+router.put('/updateProfile', isAuthenticated,  updateProfile);
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.post('/logout',isAuthenticated, logoutUser);
