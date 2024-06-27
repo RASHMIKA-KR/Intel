@@ -118,6 +118,9 @@ export const getStudentMaterialById = catchAsyncErrors(async (req, res, next) =>
 // Get institutions
 export const getInstitutions = catchAsyncErrors(async (req, res, next) => {
   const institutions = await Institution.find();
+  if (!institutions || institutions.length === 0) {
+    return next(new ErrorHandler("No Institutions available", 404));
+  }
   res.status(200).json({
     success: true,
     institutions,
