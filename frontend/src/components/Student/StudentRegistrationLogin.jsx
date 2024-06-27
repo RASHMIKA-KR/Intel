@@ -41,6 +41,7 @@ const StudentRegistration = () => {
         }
       );
 
+<<<<<<< HEAD:frontend/src/components/Student/StudentRegistrationLogin.jsx
       if (response.data.success) {
         toast.success(response.data.message);
         clearFormFields();
@@ -49,6 +50,16 @@ const StudentRegistration = () => {
       toast.error(error.response?.data?.message || "Registration failed");
     }
   };
+=======
+  if (response.data.success) {
+    toast.success(response.data.message);
+    clearFormFields();
+  }
+} catch (error) {
+  toast.error(error.response?.data?.message || 'Registration failed');
+}
+};
+>>>>>>> parent of fbef344 (studentlogin page created):frontend/src/components/Student/StudentRegistration.jsx
 
   const handleSignIn = async (event) => {
     event.preventDefault();
