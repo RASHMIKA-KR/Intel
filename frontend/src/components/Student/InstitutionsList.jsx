@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import "../../assets/StudentHome.css"; // Assuming you want the same styles

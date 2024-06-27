@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Gentium+Basic&display=swap');
+
+/* AdminLogin.css */
+
+body {
+  font-family: 'Gentium Basic', serif;
+  background: #f2f2f2;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.admin-login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.admin-login-form-wrapper {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.admin-login-form h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.admin-login-input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.admin-login-button {
+    width: 100%;
+    padding: 12px 45px; /* Match padding from button */
+    border: 1px solid #3c97bf; /* Match border from button */
+    border-radius: 20px; /* Match border-radius from button */
+    background-color: #3c97bf; /* Match background-color from button */
+    color: #FFFFFF; /* Match color from button */
+    font-size: 12px; /* Match font-size from button */
+    font-weight: bold; /* Match font-weight from button */
+    letter-spacing: 1px; /* Match letter-spacing from button */
+    text-transform: uppercase; /* Match text-transform from button */
+    cursor: pointer;
+    transition: transform 80ms ease-in, background 0.3s ease; /* Add background transition */
+  }
+  
+  .admin-login-button:hover {
+    transform: scale(1.05); /* Example transformation on hover */
+    background: #3c97bf; /* Updated background gradient */
+    background: -webkit-linear-gradient(to right, #3c97bf, #3c5dbf); /* Updated background gradient for WebKit */
+    background: linear-gradient(to right, #3c97bf, #3c5dbf); /* Updated background gradient for other browsers */
+  }
+  
