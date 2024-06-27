@@ -182,7 +182,7 @@ const CenterRegistrationLogin = () => {
             style={{ width: "100%" }}
           />
 
-          <button type="submit">Sign Up</button>
+          <button className="sign-button"type="submit">Sign Up</button>
         </form>
       </div>
       <div className="form-container sign-in-container">
@@ -200,8 +200,8 @@ const CenterRegistrationLogin = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button type="submit">Sign In</button>
-        </form>
+  <button className="sign-button" type="submit">Sign In</button>      
+    </form>
       </div>
       <div className="overlay-container">
         <div className="overlay">

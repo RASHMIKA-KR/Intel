@@ -208,7 +208,7 @@ const StudentRegistration = () => {
             </>
           )}
           <br/>
-          <button type="submit">Sign Up</button>
+          <button className="sign-button"type="submit">Sign Up</button>
         </form>
       </div>
       <div className="form-container sign-in-container">
@@ -227,7 +227,7 @@ const StudentRegistration = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <br/>
-          <button type="submit">Sign In</button>
+          <button className="sign-button"type="submit">Sign In</button>
         </form>
       </div>
       <div className="overlay-container">
