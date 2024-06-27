@@ -1,4 +1,4 @@
-/* src/assets/InstitutionDetails.css */
+* src/assets/InstitutionDetails.css */
 
 .content {
     padding: 20px;
@@ -27,4 +27,3 @@
   button:hover {
     background-color: #555;
   }
-  

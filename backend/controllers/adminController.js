@@ -10,6 +10,8 @@ import { sendToken } from "../utils/jwtToken.js";
 
 // Admin login function
 export const adminLogin = catchAsyncErrors(async (req, res, next) => {
+  console.log("Login endpoint hit");
+
   const { username, password} = req.body;
   if (!username || !password) {
     return next(new ErrorHandler("Please provide email and password!", 400));

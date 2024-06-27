@@ -4,12 +4,6 @@ import { useNavigate } from "react-router-dom";
 import NavigationBar from "./NavigationBar";
 import "../../assets/CardStudent.css";
 
-const getCookie = (name) => {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-};
-
 const InstitutionsList = () => {
   const [institutions, setInstitutions] = useState([]);
   const navigate = useNavigate();
@@ -17,24 +11,15 @@ const InstitutionsList = () => {
   useEffect(() => {
     const fetchInstitutions = async () => {
       try {
-        const token = getCookie("authToken");
-        if (!token) {
-          console.log("No token found. You are not authorized to access this page.");
-          window.location.href = "/home";
-          return;
-        }
-
         const response = await axios.get("http://localhost:4000/api/student/institutions", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true, // Ensures cookies are sent with requests
         });
         const approvedInstitutions = response.data.institutions.filter(institution => institution.status === 'Approved');
         setInstitutions(approvedInstitutions);
       } catch (error) {
         console.error("Error fetching institutions:", error);
         if (error.response && error.response.status === 401) {
-          window.location.href = "/home";
+          window.location.href = "/student/home";
         } else {
           alert("Error fetching institutions: " + error.message);
         }

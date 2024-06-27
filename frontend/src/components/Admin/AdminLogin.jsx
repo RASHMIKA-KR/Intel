@@ -4,8 +4,6 @@ import toast, { Toaster } from 'react-hot-toast';
 import { Navigate } from 'react-router-dom';
 import { Context } from "../../main";
 import "../../assets/AdminLogin.css";
-import Cookies from 'js-cookie';
-
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -14,23 +12,21 @@ const AdminLogin = () => {
   const handleAdminLogin = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
+      const {data}= await axios.post(
         'http://localhost:4000/api/admin/login',
-        { username, password }
+        { username, password },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
       );
-      if (response.data.success) {
-        const token = response.data.token;
-        if (token) {
-          Cookies.set('authToken', token, { expires: 1 }); // Set the token as a cookie
-          toast.success(response.data.message);
+          toast.success(data.message);
           clearLoginFields();
           setIsAuthorized(true);
-        } else {
-          toast.error("No token received. Please try again.");
-        }
-      }
     } catch (error) {
-      toast.error(error.response?.data?.message || "Login failed");
+      toast.error(error.response.data.message);
     }
   };
 

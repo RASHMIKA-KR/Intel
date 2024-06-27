@@ -10,24 +10,24 @@ import {
 deletePostMaterial,
 getAllvacancies,
 applytoVacancy,getvacancybyid,getmyVacancyEnquiries} from '../controllers/teacherController.js';
-import { isAuthenticated} from '../middlewares/auth.js';
+import { authenticateTeacher} from '../middlewares/auth.js';
 
 const router = express.Router();
 
 router.post('/register', registerTeacher);
 router.post('/login', loginTeacher);
-router.post('/logout', isAuthenticated,logoutTeacher);
+router.post('/logout', authenticateTeacher,logoutTeacher);
 
-router.get('/materials', isAuthenticated,  getAllPostedMaterials);
-router.get('/materials/:id', isAuthenticated,   getPostedMaterialById);
-router.get('/myMaterials', isAuthenticated,   getMaterialsPostedByMe);
-router.post('/postMaterial', isAuthenticated,   postNewMaterial);
-router.delete('/delmaterial/:id', isAuthenticated,   deletePostMaterial);
+router.get('/materials', authenticateTeacher,  getAllPostedMaterials);
+router.get('/materials/:id', authenticateTeacher,   getPostedMaterialById);
+router.get('/myMaterials', authenticateTeacher,   getMaterialsPostedByMe);
+router.post('/postMaterial', authenticateTeacher,   postNewMaterial);
+router.delete('/delmaterial/:id', authenticateTeacher,   deletePostMaterial);
 
-router.get('/vacancies', isAuthenticated,  getAllvacancies);
-router.post('/apply', isAuthenticated,   applytoVacancy);
-router.get('/vacancy/:id', isAuthenticated,   getvacancybyid);
-router.get('/myenquiries',isAuthenticated,   getmyVacancyEnquiries);
+router.get('/vacancies', authenticateTeacher,  getAllvacancies);
+router.post('/apply', authenticateTeacher,   applytoVacancy);
+router.get('/vacancy/:id', authenticateTeacher,   getvacancybyid);
+router.get('/myenquiries',authenticateTeacher,   getmyVacancyEnquiries);
 
 
 export default router;
