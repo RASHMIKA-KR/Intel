@@ -7,6 +7,7 @@ import InstitutionRegistrationLogin from './components/Institution/InstitutionRe
 import CenterRegistrationLogin from './components/Center/CenterRegistrationLogin';
 
 //students
+import UpdateProfile from './components/Student/UpdateProfile';
 import StudentHome from './pages/StudentHome';
 import InstitutionsList from './components/Student/InstitutionsList';
 import AdminHome from './pages/AdminHome';
@@ -26,6 +27,7 @@ import InstitutionHome from "./pages/InstitutionHome";
 import TeacherHome from "./pages/TeacherHome";
 //Center
 import CenterHome from "./pages/CenterHome";
+import StudentProfile from './components/Student/StudentProfile';
 function App() {
   return (
     <BrowserRouter>
@@ -50,14 +52,13 @@ function App() {
         <Route path="/admin/centers" element={<CentersPage />} />
         <Route path="/admin/institutions/:id" element={<InstitutionDetails />} />
         <Route path="/admin/centers/:id" element={<CenterDetail />} />
-
-
         <Route path="/institution/home" element={<InstitutionHome />} />
-
-
         <Route path="/teacher/home" element={<TeacherHome/>} />
-
         <Route path="/center/home" element={<CenterHome />} />
+        <Route path="/student/profile/:id" element={<StudentProfile />} />
+        <Route path="/student/updateProfile/:id" element={<UpdateProfile />} /> {/* Assuming UpdateProfile component exists */}
+
+
       </Routes>
     </BrowserRouter>
   );

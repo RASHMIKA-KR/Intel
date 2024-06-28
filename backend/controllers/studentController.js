@@ -201,28 +201,87 @@ export const applyToInstitutionAdmission = catchAsyncErrors(async (req, res, nex
 });
 
 
-// Get student profile
 export const getProfile = catchAsyncErrors(async (req, res, next) => {
-  const student = await Student.findById(req.user.id);
-  res.status(200).json({
-    success: true,
-    student,
-  });
+  try {
+    console.log('req.student:', req.student); // Add this line
+
+    const student = await Student.findById(req.student.id);
+    if (!student) {
+      return res.status(404).json({
+        success: false,
+        message: 'Student not found',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      student,
+    });
+  } catch (error) {
+    console.error('Error fetching student profile:', error);
+    next(error);
+  }
 });
 
-// Update student profile
-export const updateProfile = catchAsyncErrors(async (req, res, next) => {
-  const { id } = req.user; // Assuming req.user.id contains the student's ID
 
-  const updatedStudent = await Student.findByIdAndUpdate(
-    id,
-    req.body,
-    { new: true, runValidators: true, useFindAndModify: false }
-  );
+import bcrypt from "bcrypt";
 
-  res.status(200).json({
-    success: true,
-    student: updatedStudent,
-    message: "Profile Updated!",
-  });
-});
+// Update profile controller
+export const updateProfile = async (req, res) => {
+  try {
+    const { 
+      name, 
+      email, 
+      password, 
+      gender, 
+      address, 
+      age, 
+      phone, 
+      institutionType, 
+      institutionName, 
+      standard, 
+      collegeDepartment, 
+      yearOfStudy 
+    } = req.body;
+    console.log('req.BODY:', req.body); // Add this line
+
+    const studentId = req.body._id;
+    console.log('id in params',studentId);
+    const updateData = {};
+
+    if (name) updateData.name = name;
+    if (email) updateData.email = email;
+    if (gender) updateData.gender = gender;
+    if (address) updateData.address = address;
+    if (age) updateData.age = age;
+    if (phone) updateData.phone = phone;
+    if (institutionType) updateData.institutionType = institutionType;
+    if (institutionName) updateData.institutionName = institutionName;
+    if (standard) updateData.standard = standard;
+    if (collegeDepartment) updateData.collegeDepartment = collegeDepartment;
+    if (yearOfStudy) updateData.yearOfStudy = yearOfStudy;
+
+    // If password is being updated, hash it before saving
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      updateData.password = await bcrypt.hash(password, salt);
+    }
+
+    const updatedStudent = await Student.findByIdAndUpdate(studentId, updateData, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedStudent) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+      data: updatedStudent,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+

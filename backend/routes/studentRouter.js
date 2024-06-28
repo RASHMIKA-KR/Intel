@@ -39,8 +39,8 @@ router.get('/postedadmissions/:id', authenticateStudent,  getPostedAdmissionById
 router.post('/postedadmissions/:id/apply',authenticateStudent,  applyToAnyAdmission);
 router.get('/myenquiries',authenticateStudent,  getmyAdmissionEnquiries);
 
-router.get('/profile', authenticateStudent,   getProfile);
-router.put('/updateProfile', authenticateStudent,  updateProfile);
+router.get('/profile/:id', authenticateStudent,   getProfile);
+router.put('/updateProfile/:id', authenticateStudent,  updateProfile);
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.post('/logout',authenticateStudent, logoutUser);

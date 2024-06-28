@@ -1,0 +1,67 @@
+.student-profile-container {
+    width: 100vw; /* full viewport width */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .student-profile-content {
+    width: 80%;
+    max-width: 800px;
+    margin:20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .update-student-profile-content {
+    width: 80%;
+    max-width: 800px;
+    margin-top: 600px;
+margin-bottom: 20px; /* or remove this line if you don't need any bottom margin */
+margin-left: auto;
+margin-right: auto;
+
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .student-profile-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .student-profile-details label {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  .student-profile-details input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .student-update-profile-button {
+    padding: 10px 15px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .student-update-profile-button:hover {
+    background-color: #45a049;
+  }
+  
+  .student-profile-details p {
+    margin: 5px 0;
+  }
+  .button-group {
+    display: flex;
+    gap: 10px; /* Adjust the gap between buttons as needed */
+    margin-top: 20px; /* Adjust top margin if needed */
+  }

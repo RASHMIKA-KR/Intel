@@ -61,7 +61,7 @@ const StudentNavigationBar = () => {
         </li>
         <li>
           <NavLink 
-            to="/student/profile" 
+            to="/student/profile/:id" 
             className="nav-link"
             activeClassName="active"
           >
