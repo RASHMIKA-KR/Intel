@@ -28,6 +28,11 @@ import TeacherHome from "./pages/TeacherHome";
 //Center
 import CenterHome from "./pages/CenterHome";
 import StudentProfile from './components/Student/StudentProfile';
+
+
+import PdfHome from './pages/PdfHome';
+import TeacherUploadMaterial from './components/Teacher/TeacherUploadMaterial';
+import InstitutionAdmission from './components/Institution/InstitutionAdmission';
 function App() {
   return (
     <BrowserRouter>
@@ -36,6 +41,7 @@ function App() {
         <Route path="/student/register" element={<StudentRegistrationLogin />} />    
         <Route path="/teacher/register" element={<TeacherRegistrationLogin />} />  
         <Route path="/institution/register" element={<InstitutionRegistrationLogin />} />  
+        <Route path="/institution/admissions" element={<InstitutionAdmission />} />
         <Route path="/center/register" element={<CenterRegistrationLogin />} />  
         <Route path="/admin/login" element={<AdminLogin />} /> 
         <Route path="/student/home" element={<StudentHome />} />
@@ -57,8 +63,8 @@ function App() {
         <Route path="/center/home" element={<CenterHome />} />
         <Route path="/student/profile/:id" element={<StudentProfile />} />
         <Route path="/student/updateProfile/:id" element={<UpdateProfile />} /> {/* Assuming UpdateProfile component exists */}
-
-
+        <Route path="/pdf/home" element={<PdfHome />} /> 
+        <Route path="teacher/upload/material"element={<TeacherUploadMaterial/>}/>
       </Routes>
     </BrowserRouter>
   );

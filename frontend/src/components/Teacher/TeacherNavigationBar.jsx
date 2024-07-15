@@ -16,7 +16,7 @@ const TeacherNavigationBar= () => {
         </li>
         <li>
           <NavLink 
-            to="/teacher/materials" 
+            to="/teacher/upload/material" 
             className="nav-link"
             activeClassName="active"
           >

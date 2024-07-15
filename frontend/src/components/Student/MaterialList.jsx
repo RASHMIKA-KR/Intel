@@ -1,55 +1,62 @@
-import { useContext, useEffect, useState } from "react";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { Context } from "../../main"; // Assuming you have defined your context in main.js or main.jsx
-import StudentNavigationBar from "./StudentNavigationBar";
+import  { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const MaterialList = () => {
-  const [materials, setMaterials] = useState([]); // State to hold materials array
-  const { isAuthorized } = useContext(Context); // Accessing isAuthorized from context
-  const navigateTo = useNavigate(); // Navigate function from react-router-dom
+function MaterialList() {
+  const [allPdfs, setAllPdfs] = useState(null);
 
   useEffect(() => {
-    const fetchMaterials = async () => {
-      try {
-        // Fetch materials from backend API
-        const response = await axios.get("http://localhost:4000/api/student/materials", {
-          withCredentials: true, // Send cookies with the request if needed
-        });
-        // Update materials state with response data
-        setMaterials(response.data);
-      } catch (error) {
-        console.log("Error fetching materials:", error);
-      }
-    };
+    getPdfs();
+  }, []);
 
-    fetchMaterials(); // Call fetchMaterials function on component mount
-  }, []); // Empty dependency array ensures useEffect runs only once on mount
+  const getPdfs = async () => {
+    try {
+      const result = await axios.get('http://localhost:4000/api/file/get-files');
+      setAllPdfs(result.data.data);
+    } catch (error) {
+      console.error('Error fetching PDFs:', error);
+    }
+  };
 
-  // Redirect to login page if user is not authorized
-  if (!isAuthorized) {
-    navigateTo("/");
-  }
+  const downloadPdf = async (pdfId, pdfName) => {
+    try {
+      const response = await axios({
+        url: `http://localhost:4000/api/file//download/${pdfId}`,
+        method: 'GET',
+        responseType: 'blob', // important
+      });
 
-  // JSX rendering
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', pdfName); // or any other filename you want
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+    } catch (error) {
+      console.error('Error downloading PDF:', error);
+    }
+  };
+
   return (
-    <div className="home-container">
-      <StudentNavigationBar />
-      <div className="content">
-        <h1>All Available Materials</h1>
-        <ul>
-          {materials.map((material) => (
-            <li key={material._id}>
-              <p>Title: {material.name}</p>
-              <p>Material Type: {material.materialType}</p>
-              <p>Uploaded By: {material.uploadedBy}</p>
-              <Link to={`/material/${material._id}`}>Material Details</Link>
-            </li>
-          ))}
-        </ul>
+    <div className="uploaded">
+      <h4>All Available Materials:</h4>
+      <div className="output-div">
+        {allPdfs == null
+          ? ''
+          : allPdfs.map((data) => (
+              <div className="inner-div" key={data._id}>
+                <h5>Title: {data.title}</h5>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => downloadPdf(data._id, data.pdf)}
+                >
+                  Download
+                </button>
+              </div>
+            ))}
       </div>
     </div>
   );
-};
+}
 
 export default MaterialList;
