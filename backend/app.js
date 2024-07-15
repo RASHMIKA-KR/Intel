@@ -10,6 +10,8 @@ import teacherRouter from './routes/teacherRouter.js';
 import institutionRouter from './routes/institutionRouter.js';
 import centerRouter from './routes/centerRouter.js';
 import adminRouter from './routes/adminRouter.js';
+import pdfRouter from './routes/pdfRouter.js';
+import bodyParser from 'body-parser';
 
 const app = express();
 dotenv.config({ path: './config/config.env' });
@@ -26,7 +28,7 @@ app.use(cookieParser()); // Parse cookies before handling requests
 app.use(express.json()); // Parse JSON request bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request bodies
 dbConnection(); // Establish connection to MongoDB
-app.use(fileUpload({ useTempFiles: true, tempFileDir: '/tmp/' })); // Handle file uploads
+//app.use(fileUpload({ useTempFiles: true, tempFileDir: '/tmp/' })); Handle file uploads
 app.use('/api/student', studentRouter); // Mount studentRouter at /api/student
 app.use('/api/teacher', teacherRouter); // Mount teacherRouter at /api/teacher
 app.use('/api/institution', institutionRouter); // Mount institutionRouter at /api/institution
@@ -34,4 +36,8 @@ app.use('/api/center', centerRouter); // Mount centerRouter at /api/center
 app.use('/api/admin', adminRouter); // Mount adminRouter at /api/admin
 app.use(errorMiddleware); // Error handling middleware
 
+// Routes
+app.use('/files', express.static('files'));
+
+app.use('/api/file', pdfRouter);
 export default app;

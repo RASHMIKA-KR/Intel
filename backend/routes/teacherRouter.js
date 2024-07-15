@@ -11,7 +11,8 @@ deletePostMaterial,
 getAllvacancies,
 applytoVacancy,getvacancybyid,getmyVacancyEnquiries} from '../controllers/teacherController.js';
 import { authenticateTeacher} from '../middlewares/auth.js';
-
+import multer from 'multer';
+import path from 'path';
 const router = express.Router();
 
 router.post('/register', registerTeacher);
@@ -21,7 +22,24 @@ router.post('/logout', authenticateTeacher,logoutTeacher);
 router.get('/materials', authenticateTeacher,  getAllPostedMaterials);
 router.get('/materials/:id', authenticateTeacher,   getPostedMaterialById);
 router.get('/myMaterials', authenticateTeacher,   getMaterialsPostedByMe);
-router.post('/postMaterial', authenticateTeacher,   postNewMaterial);
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './Files');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // Use original filename without any suffix
+},
+});
+
+const upload = multer({ storage: storage });
+export const uploadFile = upload.single('file'); 
+router.post('/postMaterial', uploadFile,postNewMaterial);
+// Route for single file upload
+
+// route for multiple file uploads
+router.post('/postmaterial/multiple', upload.array('files', 10), authenticateTeacher,   postNewMaterial);
 router.delete('/delmaterial/:id', authenticateTeacher,   deletePostMaterial);
 
 router.get('/vacancies', authenticateTeacher,  getAllvacancies);

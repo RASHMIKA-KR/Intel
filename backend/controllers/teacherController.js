@@ -46,6 +46,7 @@ export const registerTeacher = catchAsyncErrors(async (req, res, next) => {
 
 // Login a teacher
 export const loginTeacher = catchAsyncErrors(async (req, res, next) => {
+  
   const { email, password } = req.body;
 
   if (!email || !password) {

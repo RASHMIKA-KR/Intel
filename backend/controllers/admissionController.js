@@ -27,15 +27,39 @@ export const getAdmissionById = async (req, res) => {
   }
 };
 
-// @desc    Create new admission
+// Function to create a new admission
 export const createAdmission = async (req, res) => {
+  const {
+    postedBy,
+    coursesAvailable,
+    feesStructure,
+    lastDateToApply,
+    insName,
+    // Add other fields as needed from req.body
+  } = req.body;
+
   try {
-    const admission = await Admission.create(req.body);
-    res.status(201).json({ success: true, data: admission });
+    // Create a new admission object based on the admission schema
+    const newAdmission = new Admission({
+      postedBy,
+      coursesAvailable,
+      feesStructure,
+      lastDateToApply,
+      insName,
+      // Assign other fields here
+    });
+
+    // Save the admission to the database
+    const savedAdmission = await newAdmission.save();
+
+    // Respond with the saved admission
+    res.status(201).json({ success: true, data: savedAdmission });
   } catch (error) {
+    // Handle errors
     res.status(400).json({ success: false, error: error.message });
   }
 };
+
 
 // @desc    Update admission
 export const updateAdmission = async (req, res) => {

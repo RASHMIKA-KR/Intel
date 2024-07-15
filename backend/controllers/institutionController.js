@@ -8,6 +8,7 @@ import { getAllMaterials, getMaterialById, getMyMaterials, postMaterial,deleteSi
 import {postVacancy,updatevacancy,deleteVacancy,getVacanciesByMe} from '../controllers/vacancyController.js';
 import {getVacancyEnquiryById,getAllVacancyEnquiries,changeVacancyEnquiryStatus,} from '../controllers/vacancyEnquiryController.js';
 import { sendToken } from "../utils/jwtToken.js";
+
 export const registerInstitution = catchAsyncErrors(async (req, res, next) => {
   const {
     name,
@@ -33,7 +34,7 @@ if (!req.files || Object.keys(req.files).length === 0) {
 const {image} = req.files;
 
 // Validate image format
-const allowedFormats = ["image/png", "image/jpeg", "image/webp"];
+const allowedFormats = ["image/png", "image/jpeg", "image/webp","application/pdf"];
 if (!allowedFormats.includes(image.mimetype)) {
   return next(new ErrorHandler(`Invalid image format: ${image.mimetype}. Please upload PNG, JPEG, or WEBP.`, 400));
 }
@@ -142,8 +143,7 @@ export const deletePostedMaterial=catchAsyncErrors(async(req,res,next)=>{
 });
 
 // Post a new admission
-export const postAdmission = catchAsyncErrors(async (req, res, next) => {
-  req.body.institution = req.user.institutionId;  // Ensure the admission is linked to the institution
+export const postAdmission = catchAsyncErrors(async (req, res, next) => { // Ensure the admission is linked to the institution
   await createAdmission(req, res, next);
 
 });

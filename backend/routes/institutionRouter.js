@@ -50,7 +50,7 @@ router.post('/postMaterial', authenticateInstitution,   NewMaterialPost);
 router.delete('/delmaterial/:id', authenticateInstitution,   deletePostedMaterial);
 
 // Admissions Routes
-router.post('/postAdmission', authenticateInstitution,   postAdmission);
+router.post('/postAdmission',  postAdmission);
 router.get('/admission', authenticateInstitution,   getAdmissionsByMe);
 router.get('/admission/:id', authenticateInstitution,   getOneAdmission);
 router.put('/putAdmission/:id', authenticateInstitution,   updatePostedAdmission);

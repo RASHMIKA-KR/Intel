@@ -1,6 +1,10 @@
 import Material from '../models/materialSchema.js';
 import { catchAsyncErrors } from '../middlewares/catchAsyncError.js';
 import ErrorHandler from '../middlewares/error.js';
+import PdfDetails from '../models/PdfDetailsSchema.js'
+import express from 'express';
+import multer from 'multer';
+import path from 'path';
 // Get all materials
 export const getAllMaterials = catchAsyncErrors(async (req, res, next) => {
   const materials = await Material.find();
@@ -37,46 +41,42 @@ export const getMyMaterials = catchAsyncErrors(async (req, res, next) => {
         myMaterials,
     });
   });
-// Post new learning material
-export const postMaterial = catchAsyncErrors(async (req, res, next) => {
-    const { title, description, category, uploadedByModel } = req.body;
-    
-    if (!req.files || Object.keys(req.files).length === 0) {
-        return next(new ErrorHandler("File Required!", 400));
-    }
+  export const postMaterial = async (req, res, next) => {
+    const { name, description, materialType, uploadedBy, schoolOrCollege, domain, title } = req.body;
   
-    const { file } = req.files;
-    const allowedFormats = ["image/png", "image/jpeg", "image/webp", "video/mp4", "application/pdf"];
-    if (!allowedFormats.includes(file.mimetype)) {
-        return next(new ErrorHandler("Invalid file type. Please upload a valid file.", 400));
-    }
+    try {
+      let pdfTitle, pdf, pdfFilename;
+      
+      // Handle PDF upload if exists
+      if (req.file && req.file.mimetype === 'application/pdf') {
+        pdfTitle = title; // Use title from request body
+        pdfFilename = req.file.originalname;
+        pdf = req.file.filename; // Assuming you store file path or URL here
+      }
   
-    const cloudinaryResponse = await cloudinary.uploader.upload(file.tempFilePath);
-    
-    if (!cloudinaryResponse || cloudinaryResponse.error) {
-        console.error("Cloudinary Error:", cloudinaryResponse.error || "Unknown Cloudinary error");
-        return next(new ErrorHandler("Failed to upload file to Cloudinary", 500));
-    }
-  
-    const newMaterial = new Material({
-        title,
+      // Save to MongoDB using your Material model (adjust this to your actual model)
+      const newMaterial = await Material.create({
+        name,
         description,
-        category,
-        file: {
-            public_id: cloudinaryResponse.public_id,
-            url: cloudinaryResponse.secure_url,
-        },
-        uploadedBy: req.user._id,
-        uploadedByModel
-    });
+        materialType,
+        pdfTitle,
+        pdf,
+        pdfFilename,
+        uploadedBy,
+        schoolOrCollege,
+        domain,
+        createdAt: Date.now(),
+      });
   
-    await newMaterial.save();
-  
-    res.status(201).json({
+      res.status(201).json({
         success: true,
         material: newMaterial,
-    });
-  });
+      });
+    } catch (error) {
+      next(error); // Pass error to the error handling middleware
+    }
+  };
+  
 
 import fs from 'fs';
 

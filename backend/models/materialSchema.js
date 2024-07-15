@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import validator from "validator";
+
 const materialSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -16,77 +16,39 @@ const materialSchema = new mongoose.Schema({
   materialType: {
     type: String,
     required: [true, 'Please specify the material type'],
-    enum: ['learning', 'other'],
+    enum: ['Learning', 'Other'],
   },
-  files: [
-    {
-      url: {
-        type: String,
-        required: true,
-      },
-      format: {
-        type: String,
-        required: true,
-        enum: ['PDF', 'Text', 'Video', 'Audio', 'Picture'],
-      },
-    },
-  ],
+  pdfTitle: {
+    type: String,
+    required: true 
+  },
+  pdf: {
+    type: String,
+    required: true  // Assuming you store the file path or URL here
+  },
+  pdfFilename: {
+    type: String,
+    required: true 
+  },
   uploadedBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    refPath: 'uploadedByModel',
-    required: true,
-  },
-  uploadedByModel: {
     type: String,
     enum: ['Instructor', 'Institution', 'Center'],
     required: true,
   },
-  school: {
-    type: {
-      standard: {
-        type: String,
-        required: function () {
-          return this.materialType === 'learning' && this.schoolOrCollege === 'school';
-        },
-      },
-      subject: {
-        type: String,
-        required: function () {
-          return this.materialType === 'learning' && this.schoolOrCollege === 'school';
-        },
-      },
-    },
-  },
-  college: {
-    type: {
-      subject: {
-        type: String,
-        required: function () {
-          return this.materialType === 'learning' && this.schoolOrCollege === 'college';
-        },
-      },
-    },
-  },
   schoolOrCollege: {
     type: String,
-    required: function () {
-      return this.materialType === 'learning';
-    },
-    enum: ['school', 'college'],
+    enum: ['School', 'College'], // Adjust enum values as needed
   },
   domain: {
     type: String,
-    required: function () {
-      return this.materialType === 'other';
-    },
   },
+  
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
 
-materialSchema.index({ name: 'text', description: 'text' });
 
 const Material = mongoose.model('Material', materialSchema);
 

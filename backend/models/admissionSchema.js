@@ -2,18 +2,22 @@
 import mongoose from 'mongoose';
 
 const admissionSchema = new mongoose.Schema({
+  // postedBy: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Institution',
+  //   refPath: 'postedByType',
+  //   required: true,
+  // },
   postedBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Institution',
-    refPath: 'postedByType',
-    required: true,
-  },
-  postedByType: {
     type: String,
     enum: ['Institution', 'Center'],
     required: true,
   },
   coursesAvailable: [{
+    type: String,
+    required: true,
+  }],
+  insName: [{
     type: String,
     required: true,
   }],
